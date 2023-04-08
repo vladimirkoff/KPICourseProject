@@ -1,6 +1,7 @@
 'use strict';
 
 document.querySelector('.money').innerHTML = localStorage.getItem('money');
+
 const rolls = Array.from(document.querySelectorAll('.roll'));
 const startButton = document.querySelector('.start__button');
 const closetButton = document.querySelector('.back__button');
@@ -49,12 +50,12 @@ const maxOccurrences = (arr) =>{
 
 const checkWin = (array, money, bettedMoney) => {
   const win = maxOccurrences(array);
-  if(win == 1){
+  if(win == 1) {
     const lostMoney = -2 * bettedMoney;
     added.innerHTML = lostMoney;
     added.style.color = 'red';
     money += lostMoney;
-  }else{
+  } else {
     const winMoney = 0.5 * bettedMoney * (win-2);
     added.innerHTML = '+' + winMoney;
     added.style.color = 'green';
@@ -71,9 +72,9 @@ const slots = () => {
   document.querySelector('.error__message').style.display = 'none';
   added.innerHTML = '';
 
-  if(isNaN(bettedMoney) || bettedMoney <= 0){
+  if (isNaN(bettedMoney) || bettedMoney <= 0){
     document.querySelector('.error__message').style.display = 'block';
-  } else{
+  } else {
     startButton.onclick = null;
     for(const roll of rolls){
       for(const children of roll.children){
