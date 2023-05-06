@@ -1,0 +1,121 @@
+#bettingBoard {
+    position: absolute;
+    left: 50%;
+    top: 75%;
+    transform: translate(-50%, -50%);
+    height: 375px;
+    width: 1150px;
+}
+
+#bettingBoard button {
+    background: transparent;
+    border: transparent;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+}
+
+#inner {
+    height: 225px;
+    width: 1030px;
+    float: left;
+}
+
+.boardCell {
+    display: inline-block;
+    height: 75px;
+    width: 75px;
+    background: #444444;
+    margin: 2px;
+}
+
+.boardCell:first-of-type {
+    height: 240px;
+    float: left;
+}
+
+.boardCell button {
+    position: relative;
+    display: flex;
+}
+
+.straight {
+    height: 100%;
+    width: 100%;
+}
+
+.horizontalSplit {
+    height: 100%;
+    width: 25%;
+    z-index: 2;
+    transform: translate(-55%, -100%);
+}
+
+.street,
+.verticalSplit {
+    height: 25%;
+    width: 100%;
+    z-index: 3;
+    transform: translate(0, -435%);
+}
+
+.firstFour,
+.basket,
+.doubleStreet,
+.corner {
+    height: 25%;
+    width: 25%;
+    z-index: 4;
+    transform: translate(-50%, -535%);
+}
+
+.column {
+    display: flex;
+    height: 75px;
+    width: 75px;
+    background: #444444 !important;
+    margin: 5px;
+}
+
+.dozen {
+    display: inline-flex;
+    height: 75px;
+    width: 315px;
+    transform: translate(75px);
+    background: #444444 !important;
+    margin: 2px;
+}
+
+.low,
+.even,
+.red,
+.black,
+.odd,
+.manque {
+    display: inline-flex;
+    height: 75px;
+    width: 155px;
+    background: #444444 !important;
+    margin: 2px;
+}
+
+.low {
+    margin-left: 78px;
+}
+
+#betInfo {
+    position: absolute;
+    height: max-content;
+    width: max-content;
+    background: #323232;
+    color: #d4d4d4;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+
+}
+
+.highlighted {
+    background: rgba(212, 212, 212, 0.7) !important;
+}

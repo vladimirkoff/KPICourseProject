@@ -1,0 +1,148 @@
+#wheel,
+#pointer {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    height: max-content;
+    width: max-content;
+    translate: -50%;
+    justify-content: center;
+}
+
+#pointer {
+    translate: -45%;
+    transform: rotate(180deg);
+}
+
+#chipContainer {
+    position: absolute;
+    top: 80%;
+    left: 5%;
+    height: max-content;
+    width: 86px;
+    background: #444444;
+    border: 5px solid #323232;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.chip {
+    display: inline-flex;
+    height: 35px;
+    width: 35px;
+    background: black;
+    color: #d4d4d4;
+    border-radius: 50px;
+    margin: 2px;
+    justify-content: center;
+    align-items: center;
+}
+
+.selected {
+    border: 2px solid rgba(212, 212, 212, 0.7) !important;
+}
+
+.onBoard {
+    position: absolute;
+}
+
+#spin,
+#double,
+#undo,
+#clear {
+    position: absolute;
+    height: 40px;
+    width: 75px;
+    background: #444444;
+    color: #d4d4d4;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+#spin {
+    top: 95%;
+    left: 95%;
+}
+
+#double {
+    top: 95%;
+    left: 91%;
+}
+
+#undo {
+    top: 95%;
+    left: 87%;
+}
+
+#clear {
+    top: 95%;
+    left: 83%;
+}
+
+#infoBar,
+#balanceInfo,
+#totalBetInfo,
+#winNumsContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 40px;
+    width: 100%;
+    background: #444444;
+}
+
+#balanceInfo,
+#totalBetInfo,
+#winNumsContainer {
+    display: flex;
+    left: 50px;
+    height: 100%;
+    width: 200px;
+    background: #323232;
+    color: #d4d4d4;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#balanceInfo {
+    left: 30px;
+    width: 300px;
+}
+
+#totalBetInfo {
+    left: 350px;
+    width: 300px;
+}
+
+#winNumsContainer {
+    left: 1600px;
+    width: 300px;
+}
+
+#winNumsContainer span {
+    font-weight: bold;
+    margin-left: 22px;
+}
+
+#balance-text,
+#total-text,
+#balance-value,
+#total-value,
+#balance-change,
+#total-change {
+    margin-left: 15px;
+}
+
+#alert {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: #f44336;
+    color: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 15px;
+    padding: 20px;
+}
