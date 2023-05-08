@@ -1,17 +1,28 @@
 'use strict';
 
-let P; let HCONF; let ID_CONF; let CALL_LEVEL; let BET_LEVEL; let POT_LEVEL; let BANKROLL;
-let CALL; let SMALL; let MED; let BIG; let ALLIN;
-let RANKA; let RANKB;
+let P;
+let HCONF;
+let ID_CONF;
+let CALL_LEVEL;
+let BET_LEVEL;
+let POT_LEVEL;
+let BANKROLL;
+let CALL;
+let SMALL;
+let MED;
+let BIG;
+let ALLIN;
+let RANKA;
+let RANKB;
 const FOLD = 0;
 
-function bot_get_preflop_bet() {
+const bot_get_preflop_bet = () => {
   const num_players_playing_the_hand = internal_setup();
 
-  if ((HUMAN_GOES_ALL_IN || HUMAN_WINS_AGAIN > 1) && (HCONF > 60 || RANKA == RANKB || RANKA > 13 || RANKB > 13)) {
+  if ((HUMAN_GOES_ALL_IN || HUMAN_WINS_AGAIN > 1) && (HCONF > 60 || RANKA === RANKB || RANKA > 13 || RANKB > 13)) {
     let other_making_stand = 0;
     for (let i = 1; i < players.length; i++) {
-      if (players[i].bankroll < 1 && players[i].status != 'BUST') {
+      if (players[i].bankroll < 1 && players[i].status !== 'BUST') {
         other_making_stand = 1;
       }
     }
@@ -38,7 +49,7 @@ function bot_get_preflop_bet() {
   }
   if (HCONF > 80) {
     if (POT_LEVEL > 50) {
-      if (ID_CONF == 'LO') return internal_what_do_x('100:ALLIN');
+      if (ID_CONF === 'LO') return internal_what_do_x('100:ALLIN');
       return internal_what_do_x('100:CALL');
     }
     return internal_what_do_x('5:ALLIN,15:BIG,15:MED,30:SMALL,35:CALL');
@@ -50,11 +61,11 @@ function bot_get_preflop_bet() {
 
   if (HCONF > 70) {
     if (POT_LEVEL > 75) {
-      if (ID_CONF == 'LO') return internal_what_do_x('100:ALLIN');
+      if (ID_CONF === 'LO') return internal_what_do_x('100:ALLIN');
       return internal_what_do_x('100:CALL');
     }
     if (POT_LEVEL > 50) {
-      if (ID_CONF == 'LO') return internal_what_do_x('50:ALLIN,50:BIG');
+      if (ID_CONF === 'LO') return internal_what_do_x('50:ALLIN,50:BIG');
       return internal_what_do_x('100:CALL');
     }
     if (num_players_playing_the_hand > 3) return internal_what_do_x('5:ALLIN,15:BIG,30:MED,30:SMALL,20:CALL');
@@ -62,13 +73,13 @@ function bot_get_preflop_bet() {
   }
   if (HCONF > 60) {
     if (POT_LEVEL > 75) {
-      if (ID_CONF == 'LO') return internal_what_do_x('100:ALLIN');
+      if (ID_CONF === 'LO') return internal_what_do_x('100:ALLIN');
       if (CALL_LEVEL < 70) return CALL;
-      if (ID_CONF == 'HI') return internal_what_do_x('25:CALL');
+      if (ID_CONF === 'HI') return internal_what_do_x('25:CALL');
       return internal_what_do_x('34:CALL');
     }
     if (POT_LEVEL > 50) {
-      if (ID_CONF == 'LO') return internal_what_do_x('75:ALLIN,25:BIG');
+      if (ID_CONF === 'LO') return internal_what_do_x('75:ALLIN,25:BIG');
       if (CALL_LEVEL < 70) return CALL;
       return internal_what_do_x('65:CALL');
     }
@@ -93,7 +104,7 @@ function bot_get_preflop_bet() {
     }
     if (BET_LEVEL > 30) {
       if (CALL_LEVEL < 30) return CALL;
-      if (ID_CONF == 'LO') return internal_what_do_x('24:CALL');
+      if (ID_CONF === 'LO') return internal_what_do_x('24:CALL');
       return internal_what_do_x('37:CALL');
     }
     return internal_what_do_x('1:ALLIN,1:BIG,19:SMALL,79:CALL');
@@ -105,7 +116,7 @@ function bot_get_preflop_bet() {
     }
     if (BET_LEVEL > 30) {
       if (CALL_LEVEL < 30) return internal_what_do_x('15:SMALL,85:CALL');
-      if (ID_CONF == 'LO') return internal_what_do_x('1:CALL');
+      if (ID_CONF === 'LO') return internal_what_do_x('1:CALL');
       return internal_what_do_x('20:CALL');
     }
     return internal_what_do_x('1:ALLIN,1:BIG,9:SMALL,89:CALL');
@@ -117,34 +128,37 @@ function bot_get_preflop_bet() {
     }
     if (BET_LEVEL > 20) {
       if (CALL_LEVEL < 20) return CALL;
-      if (ID_CONF == 'LO') return internal_what_do_x('1:CALL');
+      if (ID_CONF === 'LO') return internal_what_do_x('1:CALL');
       return internal_what_do_x('20:CALL');
     }
     return internal_what_do_x('1:ALLIN,99:CALL');
   }
   if (CALL_LEVEL > 20) return FOLD;
   if (CALL_LEVEL > 10) {
-    if (ID_CONF == 'LO') return internal_what_do_x('20:CALL');
+    if (ID_CONF === 'LO') return internal_what_do_x('20:CALL');
     return internal_what_do_x('1:MED,40:CALL');
   }
   if (CALL_LEVEL > 5) {
-    if (ID_CONF == 'LO') return internal_what_do_x('1:BIG,15:CALL');
+    if (ID_CONF === 'LO') return internal_what_do_x('1:BIG,15:CALL');
     return internal_what_do_x('35:CALL');
   }
-  if (ID_CONF == 'LO') return internal_what_do_x('1:ALLIN,79:CALL');
+  if (ID_CONF === 'LO') return internal_what_do_x('1:ALLIN,79:CALL');
   return CALL;
-}
-const hole_rankings =
-  'AA:100,KK:96,QQ:95,JJ:93,AKs:94,' +
-  'TT:86,AQs:85,AJs:84,KQs:84,AK:85,' +
-  '99:76,JTs:75,QJs:75,KJs:74,ATs:74,AQ:73,' +
-  'T9s:66,KQ:66,88:66,QTs:65,98s:64,J9s:65,AJ:65,KTs:65,' +
-  '77:56,87s:55,Q9s:55,T8s:54,KJ:55,QJ:54,JT:54,76s:53,97s:53,Axs:54,65s:53,' +
-  '66:46,AT:46,55:45,86s:44,KT:45,QT:44,54s:45,K9s:45,J8s:44,75s:43,' +
-  '44:36,J9:35,64s:33,T9:34,53s:33,33:35,98:34,43s:34,22:34,Kxs:34,T7s:33,Q8s:33,' +
-  '87:26,A9:26,Q9:25,76:25,42s:23,32s:23,96s:23,85s:22,J8:22,J7s:22,65:22,54:22,74s:21,K9:22,T8:21,';
+};
 
-function internal_get_hole_ranking() {
+const hole_rankings = `
+  AA:100,KK:96,QQ:95,JJ:93,AKs:94,
+  TT:86,AQs:85,AJs:84,KQs:84,AK:85,
+  99:76,JTs:75,QJs:75,KJs:74,ATs:74,AQ:73,
+  T9s:66,KQ:66,88:66,QTs:65,98s:64,J9s:65,AJ:65,KTs:65,
+  77:56,87s:55,Q9s:55,T8s:54,KJ:55,QJ:54,JT:54,76s:53,97s:53,Axs:54,65s:53,
+  66:46,AT:46,55:45,86s:44,KT:45,QT:44,54s:45,K9s:45,J8s:44,75s:43,
+  44:36,J9:35,64s:33,T9:34,53s:33,33:35,98:34,43s:34,22:34,Kxs:34,T7s:33,Q8s:33,
+  87:26,A9:26,Q9:25,76:25,42s:23,32s:23,96s:23,85s:22,J8:22,J7s:22,65:22,54:22,
+  74s:21,K9:22,T8:21,
+`;
+
+const internal_get_hole_ranking = () => {
   const player = players[current_bettor_index];
   let a = player.carda;
   let b = player.cardb;
@@ -159,9 +173,9 @@ function internal_get_hole_ranking() {
   const r_rank_a = internal_my_make_readable_rank(n_rank_a);
   const r_rank_b = internal_my_make_readable_rank(n_rank_b);
   let suited = '';
-  if (get_suit(a) == get_suit(b)) suited = 's';
+  if (get_suit(a) === get_suit(b)) suited = 's';
   let h = '';
-  if (n_rank_a == n_rank_b) h = '' + r_rank_a + '' + r_rank_b;
+  if (n_rank_a === n_rank_b) h = '' + r_rank_a + '' + r_rank_b;
   else h = '' + r_rank_a + '' + r_rank_b + suited;
   let q = internal_lookup_hole_ranking(h);
   if (!q) {
@@ -169,34 +183,35 @@ function internal_get_hole_ranking() {
     q = internal_lookup_hole_ranking(h);
   }
   return q;
-}
+};
 
-function internal_my_make_readable_rank(r) {
+const internal_my_make_readable_rank = (r) => {
   let rank = make_readable_rank(r);
-  if (rank == 10) rank = 'T';
+  if (rank === 10) rank = 'T';
   return rank;
-}
+};
 
-function internal_lookup_hole_ranking(h) {
+const internal_lookup_hole_ranking = (h) => {
   const i = hole_rankings.indexOf(h + ':');
   if (i < 0) return 0;
   const j = hole_rankings.indexOf(',', i);
   const r = hole_rankings.substring(i + h.length + 1, j);
   return r - 0;
-}
+};
 
-function bot_get_postflop_bet() {
-  const dummy = internal_setup();
+const bot_get_postflop_bet = () => {
+  internal_setup();
   let ROUND = 3;
   if (board[4]) ROUND = 5;
   else if (board[3]) ROUND = 4;
 
   if (P.subtotal_bet > 0) {
     if (HCONF > 20 || RANKA > 10 || RANKB > 10) {
-      if ((CALL_LEVEL < 40 && ROUND < 4) || (CALL_LEVEL < 30 && ROUND < 5)) return CALL;
+      if ((CALL_LEVEL < 40 && ROUND < 4) || (CALL_LEVEL < 30 && ROUND < 5)) {
+        return CALL;
+      }
     }
   }
-
   let VERDICT = '';
   const STRAIGHT_FLUSH = test_straight_flush(P);
   const FOUR_OF_A_KIND = test_four_of_a_kind(P);
@@ -207,11 +222,10 @@ function bot_get_postflop_bet() {
   const TWO_PAIR = test_two_pair(P);
   const ONE_PAIR = test_one_pair(P);
   let FLUSH_DRAW = 0;
-
   if (ROUND < 5) {
-    if (FLUSH['num_needed'] == 1) {
+    if (FLUSH['num_needed'] === 1) {
       const suit = FLUSH['suit'];
-      if (P.carda.substring(0, 1) == suit || P.cardb.substring(0, 1) == suit) FLUSH_DRAW = 1;
+      if (P.carda.substring(0, 1) === suit || P.cardb.substring(0, 1) === suit) FLUSH_DRAW = 1;
     }
   }
 
@@ -219,39 +233,39 @@ function bot_get_postflop_bet() {
     if (STRAIGHT_FLUSH['num_mine'] > 0) VERDICT = 'GREAT';
     else VERDICT = 'PLAY BOARD';
   }
-  if (VERDICT == '' && FOUR_OF_A_KIND['num_needed'] < 1) {
+  if (VERDICT === '' && FOUR_OF_A_KIND['num_needed'] < 1) {
     if (FOUR_OF_A_KIND['num_mine'] > 0) VERDICT = 'GREAT';
     else {
       VERDICT = 'PLAY BOARD';
     }
   }
-  if (VERDICT == '' && FULL_HOUSE['num_needed'] < 1) {
+  if (VERDICT === '' && FULL_HOUSE['num_needed'] < 1) {
     if (FULL_HOUSE['num_mine'] > 0) VERDICT = 'GREAT';
     else VERDICT = 'PLAY BOARD';
   }
-  if (VERDICT == '' && FLUSH['num_needed'] < 1) {
-    var num_mine = FLUSH['num_mine'];
+  if (VERDICT === '' && FLUSH['num_needed'] < 1) {
+    let num_mine = FLUSH['num_mine'];
     if (num_mine > 1) VERDICT = 'GREAT';
     else if (num_mine > 0) {
-      var rank = 0;
-      if (P.carda.substring(0, 1) == FLUSH['suit']) rank = RANKA;
+      let rank;
+      if (P.carda.substring(0, 1) === FLUSH['suit']) rank = RANKA;
       else rank = RANKB;
       if (rank < 11) VERDICT = 'GOOD';
       else VERDICT = 'GREAT';
     } else VERDICT = 'MAYBE';
   }
-  if (VERDICT == '' && STRAIGHT['num_needed'] < 1) {
+  if (VERDICT === '' && STRAIGHT['num_needed'] < 1) {
     if (STRAIGHT['num_mine'] > 0) VERDICT = 'GREAT';
     else VERDICT = 'PLAY BOARD';
     if (internal_exists_flush_potential() < 3) VERDICT = 'MAYBE';
   }
-  if (VERDICT == '' && THREE_OF_A_KIND['num_needed'] < 1) {
+  if (VERDICT === '' && THREE_OF_A_KIND['num_needed'] < 1) {
     if (THREE_OF_A_KIND['num_mine'] > 0) VERDICT = 'GREAT';
     else {
       const k1 = THREE_OF_A_KIND['kicker_1'];
       const k2 = THREE_OF_A_KIND['kicker_2'];
-      if ((k1 == RANKA && k2 == RANKB) || (k1 == RANKB && k2 == RANKA)) VERDICT = 'GREAT';
-      else if (k1 == RANKA || k1 == RANKB) VERDICT = 'GOOD';
+      if ((k1 === RANKA && k2 === RANKB) || (k1 === RANKB && k2 === RANKA)) VERDICT = 'GREAT';
+      else if (k1 === RANKA || k1 === RANKB) VERDICT = 'GOOD';
       else if (k1 > 11 && k2 > 9) VERDICT = 'GOOD';
       else VERDICT = 'MAYBE';
     }
@@ -262,10 +276,10 @@ function bot_get_postflop_bet() {
       VERDICT = 'MAYBE';
     }
   }
-  if (VERDICT == '' && TWO_PAIR['num_needed'] < 1) {
-    num_mine = TWO_PAIR['num_mine'];
+  if (VERDICT === '' && TWO_PAIR['num_needed'] < 1) {
+    let num_mine = TWO_PAIR['num_mine'];
     if (num_mine > 1) {
-      if (RANKA == RANKB) {
+      if (RANKA === RANKB) {
         VERDICT = 'GOOD';
       } else {
         VERDICT = 'GREAT';
@@ -274,8 +288,8 @@ function bot_get_postflop_bet() {
       if (ROUND < 4) {
         VERDICT = 'GREAT';
       } else {
-        rank = TWO_PAIR['rank_1'];
-        if (rank != RANKA && rank != RANKB) {
+        let rank = TWO_PAIR['rank_1'];
+        if (rank !== RANKA && rank !== RANKB) {
           rank = TWO_PAIR['rank_2'];
         }
         if (rank < 10) {
@@ -286,7 +300,7 @@ function bot_get_postflop_bet() {
       }
     } else {
       const kick = TWO_PAIR['kicker'];
-      if (kick == RANKA || kick == RANKB || kick > 10) {
+      if (kick === RANKA || kick === RANKB || kick > 10) {
         VERDICT = 'PLAY BOARD';
       } else {
         VERDICT = 'MAYBE';
@@ -299,7 +313,7 @@ function bot_get_postflop_bet() {
       VERDICT = 'MAYBE';
     }
   }
-  if (VERDICT == '' && ONE_PAIR['num_needed'] < 1) {
+  if (VERDICT === '' && ONE_PAIR['num_needed'] < 1) {
     if (ONE_PAIR['num_mine'] > 0) {
       const my_rank = ONE_PAIR['rank'];
       let num_overcards = 0;
@@ -327,10 +341,10 @@ function bot_get_postflop_bet() {
       }
     }
   }
-  if ((HUMAN_GOES_ALL_IN || HUMAN_WINS_AGAIN > 1) && (VERDICT == 'GREAT' || VERDICT == 'GOOD' || VERDICT == 'MAYBE' || RANKA == RANKB)) {
+  if ((HUMAN_GOES_ALL_IN || HUMAN_WINS_AGAIN > 1) && (VERDICT === 'GREAT' || VERDICT === 'GOOD' || VERDICT === 'MAYBE' || RANKA === RANKB)) {
     let other_making_stand = 0;
     for (let index = 1; index < players.length; index++) {
-      if (players[index].bankroll < 1 && players[index].status != 'BUST') {
+      if (players[index].bankroll < 1 && players[index].status !== 'BUST') {
         other_making_stand = 1;
       }
       break;
@@ -341,18 +355,18 @@ function bot_get_postflop_bet() {
       }
       return internal_what_do_x('10:MED,40:SMALL,50:CALL');
     }
-    if (VERDICT == 'GREAT' || VERDICT == 'GOOD') {
+    if (VERDICT === 'GREAT' || VERDICT === 'GOOD') {
       return internal_what_do_x('10:MED,40:SMALL,50:CALL');
     }
   }
 
-  if (VERDICT == 'GREAT') {
+  if (VERDICT === 'GREAT') {
     if (ROUND < 5) {
       return internal_what_do_x('5:ALLIN,5:BIG,25:MED,45:SMALL,20:CALL');
     }
     return internal_what_do_x('30:ALLIN,40:BIG,30:MED');
   }
-  if (VERDICT == 'GOOD') {
+  if (VERDICT === 'GOOD') {
     if (ROUND < 4) {
       if (BET_LEVEL > 79) {
         if (CALL_LEVEL < 70 || FLUSH_DRAW) return CALL;
@@ -373,7 +387,7 @@ function bot_get_postflop_bet() {
     if (ROUND < 5) return internal_what_do_x('35:CALL');
     return internal_what_do_x('25:CALL');
   }
-  if (VERDICT == 'MAYBE') {
+  if (VERDICT === 'MAYBE') {
     if (BET_LEVEL < 50) {
       if (CALL > 0) return internal_what_do_x('5:MED,15:SMALL,80:CALL');
       return internal_what_do_x('5:BIG,20:MED,50:SMALL,25:CALL');
@@ -381,7 +395,7 @@ function bot_get_postflop_bet() {
     if (BET_LEVEL < 70) {
       if (ROUND < 4 && FLUSH_DRAW) return CALL;
       if (CALL_LEVEL < 40) return CALL;
-      if (ID_CONF == 'LO') {
+      if (ID_CONF === 'LO') {
         if (ROUND < 4) return internal_what_do_x('35:CALL');
         if (ROUND < 5) return internal_what_do_x('65:CALL');
         return internal_what_do_x('89:CALL');
@@ -405,7 +419,7 @@ function bot_get_postflop_bet() {
       return internal_what_do_x('33:CALL');
     }
   }
-  if (VERDICT == 'PLAY BOARD') {
+  if (VERDICT === 'PLAY BOARD') {
     return CALL;
   }
   let hi_rank = RANKA;
@@ -447,19 +461,19 @@ function bot_get_postflop_bet() {
   if (CALL_LEVEL < 20) return CALL;
   if (CALL_LEVEL < 30) return internal_what_do_x('10:SMALL,20:CALL');
   return FOLD;
-}
+};
 
-function internal_exists_flush_potential() {
+const internal_exists_flush_potential = () => {
   const the_hash = test_flush(new player());
   return the_hash['num_needed'];
-}
+};
 
-function internal_exists_straight_potential() {
+const internal_exists_straight_potential = () => {
   const the_hash = test_straight(new player());
   return the_hash['num_needed'];
-}
+};
 
-function internal_setup() {
+const internal_setup = () => {
   P = players[current_bettor_index];
   CALL = current_bet_amount - P.subtotal_bet;
   RANKA = get_rank(P.carda);
@@ -474,9 +488,9 @@ function internal_setup() {
   let num_players_playing_the_hand = 0;
   for (let i = 0; i < players.length; i++) {
     total_bankrolls += players[i].bankroll;
-    if (players[i].status != 'BUST') {
+    if (players[i].status !== 'BUST') {
       number_of_players_in_game++;
-      if (players[i].status != 'FOLD') {
+      if (players[i].status !== 'FOLD') {
         num_players_playing_the_hand++;
       }
     }
@@ -498,9 +512,9 @@ function internal_setup() {
   ALLIN = BANKROLL;
 
   return num_players_playing_the_hand;
-}
+};
 
-function internal_tokenize_string(string) {
+const internal_tokenize_string = (string) => {
   if (string === 'FOLD') {
     return FOLD;
   }
@@ -520,9 +534,9 @@ function internal_tokenize_string(string) {
     return ALLIN;
   }
   alert('internal_tokenize_string() cannot tokenize ' + string);
-}
+};
 
-function internal_what_do_x(q, r) {
+const internal_what_do_x = (q, r) => {
   q += ',';
   if (!r) r = Math.random();
   let p = 0;
@@ -540,19 +554,19 @@ function internal_what_do_x(q, r) {
       return internal_tokenize_string(action);
     }
   }
-}
+};
 
-function internal_round5(n) {
+const internal_round5 = (n) => {
   if (n < 5) return 5;
   let s = '' + n;
   const i = s.indexOf('.');
   if (i > 0) s = s.substring(0, i);
   n = s - 0;
-  while (n % 5 != 0) n++;
+  while (n % 5 !== 0) n++;
   return n;
-}
+};
 
-function internal_get_bet_level(b) {
+const internal_get_bet_level = (b) => {
   const size = b / P.bankroll;
   if (size <= 0.015 || b <= 5) return 5;
   if (size <= 0.02 || b <= 10) return 10;
@@ -563,9 +577,9 @@ function internal_get_bet_level(b) {
   if (size <= 0.35 || b <= 150) return 70;
   if (size <= 0.41 || b <= 200) return 80;
   return 100;
-}
+};
 
-function internal_get_pot_level() {
+const internal_get_pot_level = () => {
   const p = get_pot_size();
   const b = players[current_bettor_index].bankroll;
   if (p > 0.5 * b) {
@@ -575,4 +589,4 @@ function internal_get_pot_level() {
     return 51;
   }
   return 1;
-}
+};
