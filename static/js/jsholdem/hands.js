@@ -1,4 +1,3 @@
-// straight don't check 4 inside draws
 "use strict";
 
 var tests = ["straight_flush", "four_of_a_kind", "full_house", "flush", "straight", "three_of_a_kind", "two_pair", "one_pair", "hi_card"];
@@ -8,14 +7,6 @@ function get_winners (my_players) {
   for (var i = 0; i < tests.length; i++) {
     winners = winners_helper(my_players, tests[i]);
     if (winners) {
-      /*
-      var s="";
-      for(var j=0;j<winners.length;j++) {
-        if(winners[j]>0)
-          s+=my_players[j].name+",\n";
-      }
-      alert(tests[i]+"!!!\n\n"+s);
-      */
       break;
     }
   }
@@ -88,30 +79,26 @@ function winners_helper (my_players, test) {
   var best;
   var winners = new Array(my_players.length);
   for (var i = 0; i < my_players.length; i++) {
-    if (!my_players[i]) { // Busted or folded
+    if (!my_players[i]) {
       continue;
     }
     var a = execute_test("test_" + test, my_players[i]);
-    //    var a_str = JSON.stringify(a, null, 4)
-    //    gui_log_to_history("test_" + test + "(" + my_players[i].name + ") returned " + a_str);
     var num_needed = a["num_needed"];
     if (num_needed > 0 || (num_needed == 0 && num_needed != "0")) {
       continue;
     }
     if (typeof best === 'undefined') {
       best = a;
-      winners = new Array(my_players.length); // intentional ? zorro
+      winners = new Array(my_players.length);
       winners[i] = a;
     } else {
       var comp = execute_compare("compare_" + test, a, best);
-      // gui_log_to_history("compare_" + test + "(" + a_str + "," + best + ") returned " + comp);
-      // alert("TESTING "+my_players[i].name+"'s "+test+"\na: "+a+"\nb: "+best+"\n\nwinner: "+comp);
-      if (comp == "a") { // a won
+      if (comp == "a") {
         best = a;
-        winners = new Array(my_players.length); // intentional ? zorro
+        winners = new Array(my_players.length);
         winners[i] = a;
-      } else if (comp == "b") { // 'best' is still  best
-      } else if (comp == "c") { // A draw, add as a winner
+      } else if (comp == "b") {
+      } else if (comp == "c") {
         winners[i] = a;
       }
     }

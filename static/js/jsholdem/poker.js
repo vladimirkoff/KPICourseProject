@@ -1,7 +1,3 @@
-/*
-If you improve this software or find a bug, please let me know: orciu@users.sourceforge.net
-Project home page: http://sourceforge.net/projects/jsholdem/
-*/
 "use strict";
 
 var START_DATE;
@@ -11,7 +7,7 @@ var RUN_EM = 0;
 var STARTING_BANKROLL = 500;
 var SMALL_BLIND;
 var BIG_BLIND;
-var BG_HILITE = 'gold';           // "#EFEF30",
+var BG_HILITE = 'gold';
 var global_speed = 1;
 var HUMAN_WINS_AGAIN;
 var HUMAN_GOES_ALL_IN;
@@ -44,7 +40,6 @@ function player (name, bankroll, carda, cardb, status, total_bet,
   this.subtotal_bet = subtotal_bet;
 }
 
-// See stackoverflow.com/questions/16427636/check-if-localstorage-is-available
 function has_local_storage () {
   try {
     var storage = window['localStorage'];
@@ -91,7 +86,7 @@ function handle_how_many_reply (opponents) {
   gui_write_modal_box("");
   write_settings_frame();
   new_game_continues(opponents);
-  gui_initialize_css();         // Load background images
+  gui_initialize_css();
   gui_show_game_response();
 }
 
@@ -187,7 +182,6 @@ function number_of_active_players () {
 function new_round () {
   RUN_EM = 0;
   NUM_ROUNDS++;
-  // Clear buttons
   gui_hide_fold_call_click();
 
   var num_playing = number_of_active_players();
@@ -211,11 +205,11 @@ function new_round () {
   }
 
   for (i = 0; i < board.length; i++) {
-    if (i > 4) {        // board.length != 5
+    if (i > 4) {
       continue;
     }
     board[i] = "";
-    gui_lay_board_card(i, board[i]);     // Clear the board
+    gui_lay_board_card(i, board[i]);
   }
   for (i = 0; i < 3; i++) {
     board[i] = "";
@@ -293,18 +287,14 @@ function deal_and_write_a () {
   var start_player;
 
   start_player = current_player = get_next_player_position(button_index, 1);
-  // Deal cards to players still active
   do {
     players[current_player].carda = cards[deck_index++];
     current_player = get_next_player_position(current_player, 1);
   } while (current_player != start_player);
-
-  // and now show the cards
   current_player = get_next_player_position(button_index, 1);
   unroll_player(current_player, current_player, deal_and_write_b);
 }
 
-// Make a small delay before starting the bets
 function delay_for_main () {
   setTimeout(main, 1000);
 }
@@ -352,8 +342,7 @@ function deal_flop () {
     board[i] = cards[deck_index++];
   }
 
-  // Place 3 first cards
-  setTimeout(unroll_table, 1000, /*last_pos*/2, /*start_pos*/0, go_to_betting);
+  setTimeout(unroll_table, 1000, 2, 0, go_to_betting);
 }
 
 function deal_fourth () {
@@ -365,7 +354,7 @@ function deal_fourth () {
   board[3] = cards[deck_index++];
 
   // Place 4th card
-  setTimeout(unroll_table, 1000, /*last_pos*/3, /*start_pos*/3, go_to_betting);
+  setTimeout(unroll_table, 1000, 3, 3, go_to_betting);
 }
 
 function deal_fifth () {
@@ -376,8 +365,7 @@ function deal_fifth () {
   gui_write_game_response(message);
   board[4] = cards[deck_index++];
 
-  // Place 5th card
-  setTimeout(unroll_table, 1000, /*last_pos*/4, /*start_pos*/4, go_to_betting);
+  setTimeout(unroll_table, 1000, 4, 4, go_to_betting);
 }
 
 function main () {
@@ -407,33 +395,28 @@ function main () {
         call_button_text = "<u>C</u>heck";
         fold_button_text = 0;
         that_is_not_the_key_you_are_looking_for = function (key) {
-          if (key == 67) {         // Check
+          if (key == 67) {
             human_call();
           } else {
-            return true;           // Not my business
+            return true;
           }
           return false;
         };
       } else {
         that_is_not_the_key_you_are_looking_for = function (key) {
-          if (key == 67) {         // Call
+          if (key == 67) {
             human_call();
-          } else if (key == 70) {  // Fold
+          } else if (key == 70) {
             human_fold();
           } else {
-            return true;           // Not my business
+            return true;
           }
           return false;
         };
       }
-      // Fix the shortcut keys - structured and simple
-      // Called through a key event
       var ret_function = function (key_event) {
         actual_function(key_event.keyCode, key_event);
       }
-
-      // Called both by a key press and click on button.
-      // Why? Because we want to disable the shortcut keys when done
       var actual_function = function (key, key_event) {
         if (that_is_not_the_key_you_are_looking_for(key)) {
           return;
@@ -444,17 +427,14 @@ function main () {
         }
       };
 
-      // And now set up so the key click also go to 'actual_function'
       var do_fold = function () {
         actual_function(70, null);
       };
       var do_call = function () {
         actual_function(67, null);
       };
-      // Trigger the shortcut keys
       gui_enable_shortcut_keys(ret_function);
 
-      // And enable the buttons
       gui_setup_fold_call_click(fold_button_text,
                                 call_button_text,
                                 do_fold,
@@ -541,8 +521,6 @@ function handle_end_of_round () {
   var allocations = new Array(players.length);
   var winning_hands = new Array(players.length);
   var my_total_bets_per_player = new Array(players.length);
-
-  // Clear the ones that folded or are busted
   var i;
   var still_active_candidates = 0;
   for (i = 0; i < candidates.length; i++) {
@@ -567,30 +545,20 @@ function handle_end_of_round () {
   }
 
   while (my_total_pot_size > (pot_remainder + 0.9) && still_active_candidates) {
-//    gui_log_to_history("splitting pot with pot " + my_total_pot_size +
-//                       " and remainder " + pot_remainder +
-//                       " on " + still_active_candidates + " candidates" );
-
-    // The first round all who not folded or busted are candidates
-    // If that/ose winner(s) cannot get all of the pot then we try
-    // with the remaining players until the pot is emptied
     var winners = get_winners(candidates);
     if (!best_hand_players) {
       best_hand_players = winners;
     }
     if (!winners) {
-//      gui_log_to_history("no winners");
       my_pseudo_alert("No winners for the pot ");
       pot_remainder = my_total_pot_size;
       my_total_pot_size = 0;
       break;
     }
-
-    // Get the lowest winner bet, e.g. an all-in
     var lowest_winner_bet = my_total_pot_size * 2;
     var num_winners = 0;
     for (i = 0; i < winners.length; i++) {
-      if (!winners[i]) { // Only the winners bets
+      if (!winners[i]) {
         continue;
       }
       if (!my_best_hand_name) {
@@ -601,20 +569,8 @@ function handle_end_of_round () {
         lowest_winner_bet = my_total_bets_per_player[i];
       }
     }
-
-    // Compose the pot
-    // If your bet was less than (a fold) or equal to the lowest winner bet:
-    //    then add it to the current pot
-    // If your bet was greater than lowest:
-    //    then just take the 'lowest_winner_bet' to the pot
-
-    // Take in any fraction from a previous split
-//    if (pot_remainder) {
-//      gui_log_to_history("increasing current pot with remainder " + pot_remainder);
-//    }
     current_pot_to_split = pot_remainder;
     pot_remainder = 0;
-
     for (i = 0; i < players.length; i++) {
       if (lowest_winner_bet >= my_total_bets_per_player[i]) {
         current_pot_to_split += my_total_bets_per_player[i];
@@ -624,29 +580,19 @@ function handle_end_of_round () {
         my_total_bets_per_player[i] -= lowest_winner_bet;
       }
     }
-
-    // Divide the pot - in even integrals
-//    gui_log_to_history("Divide the pot " + current_pot_to_split +
-//                       " on " + num_winners + " winner(s)");
     var share = Math.floor(current_pot_to_split / num_winners);
-    // and save any remainders to next round
     pot_remainder = current_pot_to_split - share * num_winners;
-
-//    gui_log_to_history("share " + share + " remainder " + pot_remainder);
-
     for (i = 0; i < winners.length; i++) {
       if (my_total_bets_per_player[i] < 0.01) {
-        candidates[i] = null;           // You have got your share
+        candidates[i] = null;
       }
-      if (!winners[i]) {                // You should not have any
+      if (!winners[i]) {
         continue;
       }
-      my_total_pot_size -= share;       // Take from the pot
-      allocations[i] += share;          // and give to the winners
+      my_total_pot_size -= share;
+      allocations[i] += share;
       winning_hands[i] = winners[i].hand_name;
     }
-
-    // Iterate until pot size is zero - or no more candidates
     for (i = 0; i < candidates.length; i++) {
       if (candidates[i] == null) {
         continue;
@@ -655,19 +601,13 @@ function handle_end_of_round () {
     }
     if (still_active_candidates == 0) {
       pot_remainder = my_total_pot_size;
-//      gui_log_to_history("no more candidates, pot_remainder " + pot_remainder);
     }
     gui_log_to_history("End of iteration");
-  } // End of pot distribution
-
+  }
   global_pot_remainder = pot_remainder;
-//  gui_log_to_history("distributed; global_pot_remainder: " +
-//                     global_pot_remainder +
-//                     " pot_remainder: " + pot_remainder);
   pot_remainder = 0;
   var winner_text = "";
   var human_loses = 0;
-  // Distribute the pot - and then do too many things
   for (i = 0; i < allocations.length; i++) {
     if (allocations[i] > 0) {
       var a_string = "" + allocations[i];
@@ -680,7 +620,6 @@ function handle_end_of_round () {
                      " to " + players[i].name + ". ";
       players[i].bankroll += allocations[i];
       if (best_hand_players[i]) {
-        // function write_player(n, hilite, show_cards)
         write_player(i, 2, 1);
       } else {
         write_player(i, 1, 1);
@@ -697,17 +636,15 @@ function handle_end_of_round () {
       }
     }
   }
-  // Have a more liberal take on winning
   if (allocations[0] > 5) {
     HUMAN_WINS_AGAIN++;
   } else {
     HUMAN_WINS_AGAIN = 0;
   }
-
   var detail = "";
   for (i = 0; i < players.length; i++) {
     if (players[i].total_bet == 0 && players[i].status == "BUST") {
-      continue;  // Skip busted players
+      continue;
     }
     detail += players[i].name + " bet " + players[i].total_bet + " & got " +
               allocations[i] + ".\\n";
@@ -729,9 +666,7 @@ function handle_end_of_round () {
 
   var num_playing = number_of_active_players();
   if (num_playing < 2) {
-    // Convoluted way of finding the active player and give him the pot
     for (i = 0; i < players.length; i++) {
-      // For whosoever hath, to him shall be given
       if (has_money(i)) {
         players[i].bankroll += pot_remainder;
         pot_remainder = 0;
@@ -813,7 +748,7 @@ function ready_for_next_card () {
   }
 
   if (!RUN_EM) {
-    for (i = 0; i < players.length; i++) { // <-- UNROLL
+    for (i = 0; i < players.length; i++) {
       if (players[i].status != "BUST" && players[i].status != "FOLD") {
         write_player(i, 0, show_cards);
       }
@@ -835,8 +770,7 @@ function ready_for_next_card () {
 function the_bet_function (player_index, bet_amount) {
   if (players[player_index].status == "FOLD") {
     return 0;
-    // FOLD ;
-  } else if (bet_amount >= players[player_index].bankroll) { // ALL IN
+  } else if (bet_amount >= players[player_index].bankroll) {
     bet_amount = players[player_index].bankroll;
 
     var old_current_bet = current_bet_amount;
@@ -844,19 +778,16 @@ function the_bet_function (player_index, bet_amount) {
     if (players[player_index].subtotal_bet + bet_amount > current_bet_amount) {
       current_bet_amount = players[player_index].subtotal_bet + bet_amount;
     }
-
-    // current_min_raise should be calculated earlier ? <--
     var new_current_min_raise = current_bet_amount - old_current_bet;
     if (new_current_min_raise > current_min_raise) {
       current_min_raise = new_current_min_raise;
     }
     players[player_index].status = "CALL";
   } else if (bet_amount + players[player_index].subtotal_bet ==
-             current_bet_amount) { // CALL
+             current_bet_amount) {
     players[player_index].status = "CALL";
   } else if (current_bet_amount >
-             players[player_index].subtotal_bet + bet_amount) { // 2 SMALL
-    // COMMENT OUT TO FIND BUGS
+             players[player_index].subtotal_bet + bet_amount) {
     if (player_index == 0) {
       my_pseudo_alert("The current bet to match is " + current_bet_amount +
                       "\nYou must bet a total of at least " +
@@ -865,15 +796,14 @@ function the_bet_function (player_index, bet_amount) {
     }
     return 0;
   } else if (bet_amount + players[player_index].subtotal_bet >
-             current_bet_amount && // RAISE 2 SMALL
+             current_bet_amount &&
              get_pot_size() > 0 &&
              bet_amount + players[player_index].subtotal_bet - current_bet_amount < current_min_raise) {
-    // COMMENT OUT TO FIND BUGS
     if (player_index == 0) {
       my_pseudo_alert("Minimum raise is currently " + current_min_raise + ".");
     }
     return 0;
-  } else { // RAISE
+  } else {
     players[player_index].status = "CALL";
 
     var previous_current_bet = current_bet_amount;
@@ -894,7 +824,6 @@ function the_bet_function (player_index, bet_amount) {
 }
 
 function human_call () {
-  // Clear buttons
   gui_hide_fold_call_click();
   players[0].status = "CALL";
   current_bettor_index = get_next_player_position(0, 1);
@@ -921,7 +850,6 @@ function handle_human_bet (bet_amount) {
 
 function human_fold () {
   players[0].status = "FOLD";
-  // Clear the buttons - not able to call
   gui_hide_fold_call_click();
   current_bettor_index = get_next_player_position(0, 1);
   write_player(0, 0, 0);
@@ -935,19 +863,19 @@ function bet_from_bot (x) {
   var n = current_bet_amount - players[x].subtotal_bet;
   if (!board[0]) b = bot_get_preflop_bet();
   else b = bot_get_postflop_bet();
-  if (b >= players[x].bankroll) { // ALL IN
+  if (b >= players[x].bankroll) {
     players[x].status = "";
-  } else if (b < n) { // BET 2 SMALL
+  } else if (b < n) {
     b = 0;
     players[x].status = "FOLD";
-  } else if (b == n) { // CALL
+  } else if (b == n) {
     players[x].status = "CALL";
   } else if (b > n) {
-    if (b - n < current_min_raise) { // RAISE 2 SMALL
+    if (b - n < current_min_raise) {
       b = n;
       players[x].status = "CALL";
     } else {
-      players[x].status = ""; // RAISE
+      players[x].status = "";
     }
   }
   if (the_bet_function(x, b) == 0) {
@@ -964,10 +892,10 @@ function write_player (n, hilite, show_cards) {
   var cardb = "";
   var name_background_color = "";
   var name_font_color = "";
-  if (hilite == 1) {            // Current
+  if (hilite == 1) {
     name_background_color = BG_HILITE;
     name_font_color = 'black';
-  } else if (hilite == 2) {       // Winner
+  } else if (hilite == 2) {
     name_background_color = 'red';
   }
   if (players[n].status == "FOLD") {
@@ -981,7 +909,6 @@ function write_player (n, hilite, show_cards) {
   gui_hilite_player(name_background_color, name_font_color, n);
 
   var show_folded = false;
-  // If the human is out of the game
   if (players[0].status == "BUST" || players[0].status == "FOLD") {
     show_cards = 1;
   }
@@ -1035,7 +962,7 @@ function write_player (n, hilite, show_cards) {
                " (" + (players[n].subtotal_bet + players[n].total_bet) + ")";
   }
 
-  gui_set_player_name(players[n].name, n);    // offset 1 on seat-index
+  gui_set_player_name(players[n].name, n);
   gui_set_bet(bet_text, n);
   gui_set_bankroll(players[n].bankroll, n);
   gui_set_player_cards(carda, cardb, n, show_folded);
@@ -1169,7 +1096,6 @@ function set_speed (index) {
 }
 
 function set_raw_speed (selector_index) {
-  // check that selector_index = [1,5]
   if (selector_index < 1 || selector_index > 5) {
     my_pseudo_alert("Cannot set speed to " + selector_index);
     selector_index = 3;
@@ -1193,8 +1119,6 @@ function get_next_player_position (i, delta) {
         i = players.length - 1;
       }
     }
-
-    // Check if we can stop
     loop_on = 0;
     if (players[i].status == "BUST") loop_on = 1;
     if (players[i].status == "FOLD") loop_on = 1;

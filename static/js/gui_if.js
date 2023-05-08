@@ -1,7 +1,4 @@
 "use strict";
-
-//  --- Not in the interface ---
-
 function internal_get_a_class_named (curr, searched_name) {
   if (!curr) {
     gui_log_to_history("internal_get_a_class_named, no curr for " +
@@ -28,7 +25,6 @@ function internal_FixTheRanking (rank) {
   } else if (rank === 11) {
     ret_rank = 'jack';
   } else if (rank > 0 && rank < 11) {
-    // Normal card 1 - 10
     ret_rank = rank;
   } else {
     console.log(typeof rank);
@@ -56,9 +52,8 @@ function internal_FixTheSuiting (suit) {
 function internal_GetCardImageUrl (card) {
   var suit = card.substring(0, 1);
   var rank = parseInt(card.substring(1));
-  rank = internal_FixTheRanking(rank); // 14 -> 'ace' etc
-  suit = internal_FixTheSuiting(suit); // c  -> 'clubs' etc
-
+  rank = internal_FixTheRanking(rank);
+  suit = internal_FixTheSuiting(suit);
   return "url('static/images/" + rank + "_of_" + suit + ".png')";
 }
 
@@ -69,9 +64,6 @@ function internal_setBackground (diva, image, opacity) {
 }
 
 function internal_setCard (diva, card, folded) {
-  // card may be "" -> do not show card
-  //             "blinded" -> show back
-  //             "s14" -> show ace of spades
   var image = "url('static/images/cardback.png')";
   var opacity = 1.0;
   if (typeof card === 'undefined') {
@@ -98,8 +90,6 @@ function internal_clickin_helper (button, button_text, func_on_click) {
     button.onclick = func_on_click;
   }
 }
-
-//  --- here is the GUI stuff ---
 
 function gui_hide_poker_table () {
   var table = document.getElementById('poker_table');
@@ -179,9 +169,6 @@ function gui_set_player_cards (card_a, card_b, seat, folded) {
 }
 
 function gui_lay_board_card (n, the_card) {
-  // Write the card no 'n'
-  // the_card = "c9";
-
   var current = '';
 
   if (n === 0) {
@@ -204,9 +191,6 @@ function gui_lay_board_card (n, the_card) {
 }
 
 function gui_burn_board_card (n, the_card) {
-  // Write the card no 'n'
-  // the_card = "c9";
-
   var current = '';
 
   if (n === 0) {
@@ -263,12 +247,11 @@ function gui_log_to_history (text_to_write) {
 
 function gui_hide_log_window () {
   var history = document.getElementById('history');
-  //  history.style.visibility = 'hidden';
   history.style.display = 'none';
 }
 
 function gui_place_dealer_button (seat) {
-  var table_seat = seat; // interface start at 1
+  var table_seat = seat;
   var button = document.getElementById('button');
   if (seat < 0) {
     button.style.visibility = 'hidden';
@@ -294,7 +277,6 @@ function gui_hide_fold_call_click () {
 
 function gui_setup_fold_call_click (show_fold, call_text,
   fold_func, call_func, key_ev) {
-  // Here we have a coupling of the functions 'human_fold' and 'human_call'
   var buttons = document.getElementById('action-options');
   var fold = buttons.children['fold-button'];
   internal_clickin_helper(fold, show_fold, fold_func);
@@ -415,7 +397,6 @@ function gui_write_modal_box (text) {
 }
 
 function gui_initialize_css () {
-  // Set all the backgrounds
   var image;
   var item;
   item = document.getElementById('poker_table');

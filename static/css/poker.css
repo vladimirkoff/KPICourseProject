@@ -2,7 +2,6 @@ html {
     font-family: sans-serif;
 }
 
-
 .poker-table {
     background-repeat: no-repeat;
     left: 100px;
@@ -424,12 +423,12 @@ select {
     font-size: 12px;
     height: 100%;
     left: 0px;
-    overflow: auto; /* Enable scroll */
+    overflow: auto;
     position: fixed;
     text-align: center;
     top: 0px;
     width: 100%;
-    z-index: 1;  /* Stay on top */
+    z-index: 1;
 }
 
 #modal-box a:link {
