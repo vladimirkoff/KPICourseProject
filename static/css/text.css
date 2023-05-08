@@ -1,0 +1,132 @@
+/* - for - */
+
+h1 {
+    font-family: Garamond, Baskerville, Baskerville Old Face, Hoefler Text, Times New Roman, serif;
+    font-size: 24px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 26.4px;
+}
+h2 {
+    font-family: Garamond, Baskerville, Baskerville Old Face, Hoefler Text, Times New Roman, serif;
+    font-size: 18px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 20px;
+    padding-top: 10px;
+}
+h3 {
+    font-family: Garamond, Baskerville, Baskerville Old Face, Hoefler Text, Times New Roman, serif;
+    font-size: 14px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 15.4px;
+}
+p {
+    font-family: Garamond, Baskerville, Baskerville Old Face, Hoefler Text, Times New Roman, serif;
+    font-size: 14px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+blockquote {
+    font-family: Garamond, Baskerville, Baskerville Old Face, Hoefler Text, Times New Roman, serif;
+    font-size: 21px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 30px;
+}
+pre {
+    font-family: Garamond, Baskerville, Baskerville Old Face, Hoefler Text, Times New Roman, serif;
+    font-size: 13px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 18.5667px;
+}
+
+
+#header-wrapper {
+    background-color: #f0f2f3;
+    margin: 50px 0 0;
+    padding: 50px;
+}
+
+#header h1 {
+    color: #2d2d2d;
+    font: 300 48px / 56px source-sans-pro, sans-serif;
+    margin: 0;
+    text-align: center;
+}
+
+#header p {
+    color: #5a5a5c;
+    font: 300 24px / 36px source-sans-pro, sans-serif;
+    text-align: center;
+    width: 70%;
+    margin: 20px auto 80px;
+}
+
+.row {
+    padding: 0 20px;
+}
+
+#download {
+    text-align: center;
+}
+
+.button {
+    background-color: #008CBA;
+    color: #fff;
+    padding: 10px;
+    font-size: 1.7em;
+    font-weight: 400;
+    margin: 0;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.button1 {
+    background-color: #008CBA;
+    color: #fff;
+    padding: 5px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+#sub-wrapper {
+    padding: 70px 0 0;
+}
+
+#sub-wrapper h2 {
+    font: 300 24px source-sans-pro, sans-serif;
+    margin-bottom: 22px;
+}
+
+
+.intro p {
+    color: #4d4d4d;
+    font-size: 27px;
+    font-weight: 300;
+    line-height: 42px;
+    margin: 0 auto 80px;
+}
+
+.sub-intro p {
+    color: #4f4f52;
+    font: 300 18px / 30px source-sans-pro, sans-serif;
+    margin-bottom: 30px;
+    text-rendering: optimizeLegibility;
+}
+
+.last-row {
+    padding-bottom: 50px;
+}
+.on-white {
+    color: #8a8b8c;
+}

@@ -1,0 +1,34 @@
+@media only screen and (max-width:1400px), only screen and (max-device-width: 840px) {
+
+#setup-options {
+    height: 400px;
+    left: 630px;
+    position: absolute;
+    top: 550px;
+    width: 160px;
+}
+
+
+#game-response {
+    border: none;
+    color: black;
+    font-size: 12px;
+    height: 150px;
+    left: 25px;
+    position: absolute;
+    text-align: center;
+    top: 600px;
+    width: 500px;
+}
+
+#production-code {
+    color: black;
+    font-size: 10px;
+    height: 20px;
+    left: 100px;
+    position: absolute;
+    text-align: right;
+    top: 800px;
+    width: 600px;
+}
+

@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <title>The Poker Game</title>
+   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+   <link rel="stylesheet" href="static/css/text.css" type="text/css">
+   <!-- -->
+   <link rel="stylesheet" href="static/css/poker.css" type="text/css">
+
+   <link rel="shortcut icon" href="static/images/chip5.png" />
+   <link rel="stylesheet" href="static/css/phone.css" type="text/css"
+         media="only screen and (max-width: 1400px)">
+   <script charset="UTF-8" src=static/js/jsholdem/poker.js></script>
+   <script charset="UTF-8" src=static/js/jsholdem/hands.js></script>
+   <script charset="UTF-8" src=static/js/jsholdem/bot.js></script>
+   <script charset="UTF-8" src=static/js/gui_if.js></script>
+</head>
+<body onload="parent.init()">
+    <div id="poker_table" class="poker-table" data-uid="">
+        <div id="seat0" class="seat">
+            <div class="holecards">
+                <div class="card holecard1"></div>
+                <div class="card holecard2"></div>
+            </div>
+            <div class="name-chips">
+                <div class="player-name"></div>
+                <div class="chips"></div>
+            </div>
+            <div class="bet"></div>
+        </div>
+        <div id="seat1" class="seat">
+            <div class="holecards">
+                <div class="card holecard1"></div>
+                <div class="card holecard2"></div>
+            </div>
+            <div class="name-chips">
+                <div class="player-name"></div>
+                <div class="chips"></div>
+            </div>
+            <div class="bet"></div>
+        </div>
+        <div id="seat2" class="seat">
+            <div class="holecards">
+                <div class="card holecard1"></div>
+                <div class="card holecard2"></div>
+            </div>
+            <div class="name-chips">
+                <div class="player-name"></div>
+                <div class="chips"></div>
+            </div>
+            <div class="bet"></div>
+        </div>
+        <div id="seat3" class="seat">
+            <div class="holecards">
+                <div class="card holecard1"></div>
+                <div class="card holecard2"></div>
+            </div>
+            <div class="name-chips">
+                <div class="player-name"></div>
+                <div class="chips"></div>
+            </div>
+            <div class="bet"></div>
+        </div>
+        <div id="seat4" class="seat">
+            <div class="holecards">
+                <div class="card holecard1"></div>
+                <div class="card holecard2"></div>
+            </div>
+            <div class="name-chips">
+                <div class="player-name"></div>
+                <div class="chips"></div>
+            </div>
+            <div class="bet"></div>
+        </div>
+        <div id="seat5" class="seat">
+            <div class="holecards">
+                <div class="card holecard1"></div>
+                <div class="card holecard2"></div>
+            </div>
+            <div class="name-chips">
+                <div class="player-name"></div>
+                <div class="chips"></div>
+            </div>
+            <div class="bet"></div>
+        </div>
+        <div id="seat6" class="seat">
+            <div class="holecards">
+                <div class="card holecard1"></div>
+                <div class="card holecard2"></div>
+            </div>
+            <div class="name-chips">
+                <div class="player-name"></div>
+                <div class="chips"></div>
+            </div>
+            <div class="bet"></div>
+        </div>
+        <div id="seat7" class="seat">
+            <div class="holecards">
+                <div class="card holecard1"></div>
+                <div class="card holecard2"></div>
+            </div>
+            <div class="name-chips">
+                <div class="player-name"></div>
+                <div class="chips"></div>
+            </div>
+            <div class="bet"></div>
+        </div>
+        <div id="seat8" class="seat">
+            <div class="holecards">
+                <div class="card holecard1"></div>
+                <div class="card holecard2"></div>
+            </div>
+            <div class="name-chips">
+                <div class="player-name"></div>
+                <div class="chips"></div>
+            </div>
+            <div class="bet"></div>
+        </div>
+        <div id="seat9" class="seat">
+            <div class="holecards">
+                <div class="card holecard1"></div>
+                <div class="card holecard2"></div>
+            </div>
+            <div class="name-chips">
+                <div class="player-name"></div>
+                <div class="chips"></div>
+            </div>
+            <div class="bet"></div>
+        </div>
+        <div id="board">
+            <div id="flop1" class="card boardcard"></div>
+            <div id="flop2" class="card boardcard"></div>
+            <div id="flop3" class="card boardcard"></div>
+            <div id="turn" class="card boardcard"></div>
+            <div id="river" class="card boardcard"></div>
+            <div id="burn1" class="card boardcard"></div>
+            <div id="burn2" class="card boardcard"></div>
+            <div id="burn3" class="card boardcard"></div>
+        </div>
+        <div id="pot">
+            <div id="current-pot"></div>
+            <div id="total-pot"></div>
+        </div>
+    </div>
+    <div id="button" class="seat6-button"></div>
+    <div id="history"></div>
+    <div id="action-options">
+        <div id="fold-button" class="action-button"></div>
+        <div id="call-button" class="action-button"></div>
+    </div>
+    <div id="setup-options">
+        <div id="name-button" class="setup-button">Name</div>
+        <div id="speed-button" class="setup-button">Speed
+           <div id="speed-selector">
+              <select id="speed-options">
+                 <option value="0">1</option>
+                 <option value="1">2</option>
+                 <option value="2">3</option>
+                 <option value="3">4</option>
+                 <option value="4">5</option>
+              </select>
+           </div>
+        </div>
+        <div id="mode-button" class="setup-button">Dark mode</div>
+        <div id="help-button" class="setup-button">Help</div>
+        <div id="check-button" class="setup-button">Check for updates</div>
+    </div>
+    <div id="quick-raises">Quick Raises</div>
+    <div id="game-response" class="response-normal">Game response</div>
+    <div id="production-code">28/Feb/2021</div>
+    <div id="modal-box"></div>
+</body>
+</html>
