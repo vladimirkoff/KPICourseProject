@@ -9,4 +9,5 @@ if(!localStorage.getItem('money')) {
 
 window.addEventListener('storage', () => {
        document.querySelector('.money').innerHTML = localStorage.getItem('money');
-})
+});
+
