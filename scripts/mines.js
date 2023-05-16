@@ -45,7 +45,7 @@ function move(event) {
   let money = parseInt(localStorage.getItem('money'));
   let bettedMoney = parseInt(document.querySelector('.input__money').value);
   stepsCount++;
-  steps.innerHTML = stepsCount;
+  steps.innerHTML = `${stepsCount}`;
   const cell = event.target;
   const bombs = JSON.parse(sessionStorage.getItem('bombs'));
   const bombClicked = bombs.includes(cells.indexOf(cell));
@@ -54,13 +54,13 @@ function move(event) {
     money -= bettedMoney;
     added.innerHTML = '-' + bettedMoney;
     added.style.color = 'red';
-    localStorage.setItem('money', money);
+    localStorage.setItem('money', `${money}`);
     document.querySelector('.money').innerHTML = localStorage.getItem('money');
     playMore.style.display = 'block';
   } else {
     bettedMoney *= stepsCount / 5;
     const winMoney = Math.floor(bettedMoney);
-    earnedMoney.innerHTML = winMoney;
+    earnedMoney.innerHTML = `${winMoney}`;
     cell.style.backgroundColor = 'green';
     continueButton.onclick = cont;
     giveButton.onclick = () => give(money, winMoney, bombs);
