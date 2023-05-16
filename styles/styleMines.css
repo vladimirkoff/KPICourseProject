@@ -27,17 +27,45 @@ html, body{
        font-size: 50px;
        margin-bottom: 20px;
 }
+.game{
+       display: flex;
+       margin-top: 50px;
+}
+.money, .count__steps{
+       padding-left: 10px;
+}
+
 .money{
-       padding: 0 10px;
+       padding-right: 10px;
 }
 
 .balance{
        display: flex;
        align-items: center;
        justify-content: center;
-       margin-bottom: 15px;
+       padding-bottom: 25px;
 }
+.steps{
+       display: flex;
+       align-items: center;
+       justify-content: center;
+}
+.button{
+       font-size: 25px;
+       padding: 20px 45px;
+       border-radius: 5px;
+       border: none;
+       background-color: #3f980b;
+       color: #fff;
+       cursor: pointer;
+       margin: 25px 0px;
 
+}
+.disabled {
+       background-color: #3f980b; 
+       background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0, 0, 0, 0.1) 4px, rgba(0, 0, 0, 0.1) 8px);
+       cursor: not-allowed;
+}
 .input__money{
        font-size: 20px;
        padding: 5px;
@@ -45,7 +73,6 @@ html, body{
        border-radius: 5px;
        border: none;
 }
-
 .error__message{
        color: #fff;
        background-color: #ff0000;
@@ -66,43 +93,28 @@ html, body{
        border-right: 10px solid transparent;
        border-bottom: 10px solid #ff0000;
 }
-.button{
-       font-size: 18px;
-       padding: 5px;
-       border-radius: 5px;
-       border: none;
-       background-color: #3f980b;
-       color: #fff;
-       cursor: pointer;
-
+.game__board{
+       display: grid;
+       grid-template-columns: repeat(5, 1fr);
+       grid-column-gap: 30px;
+       grid-row-gap: 30px;
+       margin-right: 50px;
 }
-
-.disabled {
-       background-color: #3f980b; 
-       background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0, 0, 0, 0.1) 4px, rgba(0, 0, 0, 0.1) 8px); /* Штриховой фон */
-}
-
-.slots{
-       display: flex;
-       justify-content: space-evenly;
-       margin: 25px 0px;
-       background-color: #fff;
-       color: #270b3a;
+.game__board, .info{
+       background-color: #4a2961;
+       padding: 20px;
        border-radius: 10px;
-       padding: 10px 0;
-       
 }
-
-.current{
-       border: solid 7px #f7d600;
-       padding: 10px;
-       font-size: 50px;
-       width: 40px;
-       height: 54.4px;
+.cell{
+       background-color: #fff;
+       width: 50px;
+       height: 50px;
+       border-radius: 5px;
+       cursor: pointer;
 }
-
-.next, .previous{
-       font-size: 20px;
-       width: 72.487px;
-       height: 23.2px;
+.cell:hover{
+       background-color: #dcdcdc;
+}
+.game__info, .play__more{
+       display: none;
 }
