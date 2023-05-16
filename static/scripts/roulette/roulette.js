@@ -1,26 +1,11 @@
 import { betOptions, betClassesInfo, red } from './bettingBoard.js';
-
+import { getUserBalance, putMoney, withdrawMoney } from '../utils/transact.js';
 import {
-  getUserBalance,
-  addUserBalance,
-  Stack,
-  ShowChangeValue,
+  showOverlayMsg,
   showAlertMsg,
-} from '../utils.js';
-
-const balanceInfo = document.getElementById('balanceInfo');
-const balanceValue = balanceInfo.querySelector('#balance-value');
-const balanceChange = balanceInfo.querySelector('#balance-change');
-
-balanceValue.textContent = getUserBalance().toString();
-
-const balanceBar = new ShowChangeValue(balanceValue, balanceChange);
-
-const totalBetInfo = document.getElementById('totalBetInfo');
-const totalBetValue = totalBetInfo.querySelector('#total-value');
-const totalBetChange = totalBetInfo.querySelector('#total-change');
-
-const totalBetBar = new ShowChangeValue(totalBetValue, totalBetChange);
+  LiveChangeValue,
+} from '../utils/helperUI.js';
+import { Stack } from '../utils/other.js';
 
 const bettingBoard = document.getElementById('bettingBoard');
 const wheel = document.getElementById('wheel');
@@ -32,11 +17,32 @@ const chipContainer = document.getElementById('chipContainer');
 const winNumsContainer = document.getElementById('winNumsContainer');
 const winNumsSpans = winNumsContainer.getElementsByTagName('span');
 
+const balanceInfo = document.getElementById('balanceInfo');
+const balanceValue = balanceInfo.querySelector('#balance-value');
+const balanceChange = balanceInfo.querySelector('#balance-change');
+
+balanceValue.textContent = getUserBalance().toString();
+
+const balanceBar = new LiveChangeValue(balanceValue, balanceChange);
+
+const totalBetInfo = document.getElementById('totalBetInfo');
+const totalBetValue = totalBetInfo.querySelector('#total-value');
+const totalBetChange = totalBetInfo.querySelector('#total-change');
+
+const totalBetBar = new LiveChangeValue(totalBetValue, totalBetChange);
+
+const MSG_TIMEOUT = 2000;
+const FULL_ANGLE = 2 * Math.PI;
+const spinsCount = 15;
 const bets = new Stack();
 const chips = [...chipContainer.children];
 const chipCosts = [5000, 1000, 500, 100, 50, 10, 5, 1];
+const rouletteWheel = [
+  0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24,
+  16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26,
+];
 
-const alert = () => showAlertMsg('Do bet first', 2000);
+const betAlert = () => showAlertMsg('Do bet first', MSG_TIMEOUT);
 
 const getChipCost = (chip) => {
   const i = chips.indexOf(chip);
@@ -56,7 +62,7 @@ chipContainer.addEventListener('click', selectChip);
 
 const checkTransaction = (betOption, betCost) => {
   if (!betCost) {
-    showAlertMsg('You need to select chip first', 2000);
+    showAlertMsg('You need to select chip first', MSG_TIMEOUT);
     return false;
   }
   const betClass = betOption.classList.item(0);
@@ -66,19 +72,14 @@ const checkTransaction = (betOption, betCost) => {
   if (betCost < min) {
     showAlertMsg(
       'You need to select chip with greater or equal cost to minimum bet cost',
-      2000
+      MSG_TIMEOUT
     );
     return false;
   }
   const { betAmount } = betOptions.get(betOption);
   const currBet = betAmount + betCost;
   if (currBet > max) {
-    showAlertMsg('Reached maximum bet amount for this option', 2000);
-    return false;
-  }
-  const balance = getUserBalance();
-  if (betCost > balance) {
-    showAlertMsg('Insufficient funds to bet', 2000);
+    showAlertMsg('Reached maximum bet amount for this option', MSG_TIMEOUT);
     return false;
   }
   return true;
@@ -110,13 +111,16 @@ const bet = (ev) => {
   const betCost = getChipCost(selected);
   const successfulTransaction = checkTransaction(betOption, betCost);
   if (!successfulTransaction) return;
-  betOptions.addBetAmount(betOption, betCost);
-  addUserBalance(-betCost);
-  const bet = { betCost, betOption };
-  bets.push(bet);
-  setChip(betOption);
-  totalBetBar.updateValue(betCost);
-  balanceBar.updateValue(-betCost);
+  withdrawMoney(betCost, (err) => {
+    if (!err) {
+      betOptions.addBetAmount(betOption, betCost);
+      const bet = { betCost, betOption };
+      bets.push(bet);
+      setChip(betOption);
+      totalBetBar.updateValue(betCost);
+      balanceBar.updateValue(-betCost);
+    }
+  });
 };
 
 bettingBoard.addEventListener('click', bet);
@@ -124,16 +128,19 @@ bettingBoard.addEventListener('click', bet);
 const doubleBet = () => {
   let { last } = bets;
   if (!last) {
-    alert();
+    betAlert();
     return;
   }
   let totalBet = 0;
   while (last) {
     const { betCost, betOption } = last.item;
-    const successfulTransaction = checkTransaction(betOption, betCost);
+    let successfulTransaction = checkTransaction(betOption, betCost);
+    if (!successfulTransaction) return;
+    withdrawMoney(betCost, (err) => {
+      if (err) successfulTransaction = false;
+    });
     if (!successfulTransaction) return;
     betOptions.addBetAmount(betOption, betCost);
-    addUserBalance(-betCost);
     setChip(betOption);
     last.item.betCost *= 2;
     totalBet += betCost;
@@ -150,13 +157,15 @@ double.addEventListener('click', doubleBet);
 const removeBet = (undo, restoreBalance) => {
   const bet = bets.pop();
   if (!bet) {
-    alert();
+    betAlert();
     return;
   }
   const { betCost, betOption } = bet;
   betOptions.addBetAmount(betOption, -betCost);
   if (restoreBalance) {
-    addUserBalance(betCost);
+    putMoney(betCost, (err) => {
+      if (err) console.error(err);
+    });
   }
   if (undo) {
     setChip(betOption);
@@ -177,7 +186,7 @@ const clearBoard = () => {
 const clearBets = () => {
   let { last } = bets;
   if (!last) {
-    alert();
+    betAlert();
     return;
   }
   let totalBet = 0;
@@ -193,28 +202,21 @@ const clearBets = () => {
 
 clear.addEventListener('click', clearBets);
 
-const FULL_ANGLE = 2 * Math.PI;
-const spinsCount = 15;
-
-const rouletteWheel = [
-  0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24,
-  16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26,
-];
-
-const spinWheel = (winNum, spinsCount) => new Promise((resolve) => {
-  const numAngle = rouletteWheel.indexOf(winNum);
-  const angle = FULL_ANGLE * (spinsCount + numAngle / rouletteWheel.length);
-  const actualAngle = angle % FULL_ANGLE;
-  wheel.style.transition = `all ${spinsCount}s ease`;
-  wheel.style.rotate = `-${angle}rad`;
-  const transitionEndHandler = () => {
-    wheel.removeEventListener('transitionend', transitionEndHandler);
-    wheel.style.transition = 'none';
-    wheel.style.rotate = `-${actualAngle}rad`;
-    resolve();
-  };
-  wheel.addEventListener('transitionend', transitionEndHandler);
-});
+const spinWheel = (winNum, spinsCount) =>
+  new Promise((resolve) => {
+    const numAngle = rouletteWheel.indexOf(winNum);
+    const angle = FULL_ANGLE * (spinsCount + numAngle / rouletteWheel.length);
+    const actualAngle = angle % FULL_ANGLE;
+    wheel.style.transition = `all ${spinsCount}s ease`;
+    wheel.style.rotate = `-${angle}rad`;
+    const transitionEndHandler = () => {
+      wheel.removeEventListener('transitionend', transitionEndHandler);
+      wheel.style.transition = 'none';
+      wheel.style.rotate = `-${actualAngle}rad`;
+      resolve();
+    };
+    wheel.addEventListener('transitionend', transitionEndHandler);
+  });
 
 const disableInterface = (disabled) => {
   if (disabled) bettingBoard.removeEventListener('click', bet);
@@ -240,33 +242,35 @@ const saveWinNum = (winNum) => {
 const getResult = async () => {
   let { last } = bets;
   if (!last) {
-    alert();
+    betAlert();
     return;
   }
   let totalWin = 0;
-  let totalBet = 0;
   const winNum = Math.floor(Math.random() * rouletteWheel.length);
   while (last) {
     const { betCost, betOption } = last.item;
-    totalBet += betCost;
     const { winNums } = betOptions.get(betOption);
     const win = winNums.includes(winNum);
     if (win) {
       const betClass = betOption.classList.item(0);
       const { payout } = betClassesInfo[betClass];
-      totalWin += betCost * payout;
+      totalWin += betCost * (payout + 1);
     }
-    removeBet(false, win);
+    removeBet(false, false);
     last = bets.last;
   }
   disableInterface(true);
   await spinWheel(winNum, spinsCount);
   clearBoard();
   disableInterface(false);
-  addUserBalance(totalWin);
+  putMoney(totalWin, (err) => {
+    if (err) console.error(err);
+  });
   balanceBar.updateValue(totalWin);
-  totalBetBar.updateValue(-totalBet);
+  totalBetBar.resetValue();
   saveWinNum(winNum);
+  if (totalWin) showOverlayMsg('You win!', MSG_TIMEOUT);
+  else showOverlayMsg('You lose!', MSG_TIMEOUT);
 };
 
 spin.addEventListener('click', getResult);

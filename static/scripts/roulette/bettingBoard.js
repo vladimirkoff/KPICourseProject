@@ -1,4 +1,4 @@
-import { createDiv } from '../utils.js';
+import { createDiv } from '../utils/helperUI.js';
 
 export const betOptions = new Map();
 
@@ -25,8 +25,8 @@ export const betClassesInfo = {
   black: { name: 'Black', payout: 1, max: 40000, min: 1 },
 };
 
-let timerId;
 const showDelay = 500;
+let timerId;
 
 const showBetOptionInfo = (ev) => {
   if (timerId) clearTimeout(timerId);

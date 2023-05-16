@@ -173,7 +173,6 @@ p {
     z-index: 5;
 }
 
-#back,
 #balance-info,
 #total-info {
     display: flex;
@@ -186,14 +185,6 @@ p {
     justify-content: flex-start;
     align-items: center;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-#back {
-    position: relative;
-    left: 10px;
-    width: 60px;
-    justify-content: center;
-    align-items: center;
 }
 
 #balance-info {
