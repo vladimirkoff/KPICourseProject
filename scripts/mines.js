@@ -16,34 +16,34 @@ const added = document.querySelector('.added');
 const giveButton = document.querySelector('.give__money');
 let stepsCount = parseInt(steps.innerHTML);
 
-const showCells = (array, bombs) => {
-  array.forEach((elem) => (bombs.includes(array.indexOf(elem)) ?
+const revealCells = (cells, bombs) => {
+  cells.forEach((elem) => (bombs.includes(cells.indexOf(elem)) ?
     elem.style.backgroundColor = 'red' :
     elem.style.backgroundColor = 'green'));
 };
 
-const cont = () => {
-  cells.forEach((elem) => elem.addEventListener('click', move));
+const continueGame = () => {
+  cells.forEach((elem) => elem.addEventListener('click', playMines));
   continueButton.classList.add('disabled');
   giveButton.classList.add('disabled');
   continueButton.onclick = null;
 };
 
-const give = (money, winMoney, bombs) => {
-  showCells(cells, bombs);
+const giveReward = (money, winMoney, bombs) => {
+  revealCells(cells, bombs);
   money += winMoney;
   added.innerHTML = '+' + winMoney;
   added.style.color = 'green';
-  localStorage.setItem('money', money);
+  localStorage.setItem('money', `${money}`);
   document.querySelector('.money').innerHTML = localStorage.getItem('money');
   playMore.style.display = 'block';
   continueButton.classList.add('disabled');
   giveButton.classList.add('disabled');
-  cells.forEach((elem) => elem.removeEventListener('click', move));
+  cells.forEach((elem) => elem.removeEventListener('click', playMines));
   giveButton.onclick = null;
 };
 
-function move(event) {
+function playMines(event) {
   let money = parseInt(localStorage.getItem('money'));
   let bettedMoney = parseInt(document.querySelector('.input__money').value);
   stepsCount++;
@@ -52,7 +52,7 @@ function move(event) {
   const bombs = JSON.parse(sessionStorage.getItem('bombs'));
   const bombClicked = bombs.includes(cells.indexOf(cell));
   if (bombClicked) {
-    showCells(cells, bombs);
+    revealCells(cells, bombs);
     money -= bettedMoney;
     added.innerHTML = '-' + bettedMoney;
     added.style.color = 'red';
@@ -64,12 +64,12 @@ function move(event) {
     const winMoney = Math.floor(bettedMoney);
     earnedMoney.innerHTML = `${winMoney}`;
     cell.style.backgroundColor = 'green';
-    continueButton.onclick = cont;
-    giveButton.onclick = () => give(money, winMoney, bombs);
+    continueButton.onclick = continueGame;
+    giveButton.onclick = () => giveReward(money, winMoney, bombs);
     continueButton.classList.remove('disabled');
     giveButton.classList.remove('disabled');
   }
-  cells.forEach((elem) => elem.removeEventListener('click', move));
+  cells.forEach((elem) => elem.removeEventListener('click', playMines));
 }
 
 const generateRandomArray = (max) => {
@@ -95,7 +95,7 @@ const start = () => {
     gameInfo.style.display = 'block';
     const bombNumbers = generateRandomArray(cells.length - 1);
     sessionStorage.setItem('bombs', JSON.stringify(bombNumbers));
-    cells.forEach((elem) => elem.addEventListener('click', move));
+    cells.forEach((elem) => elem.addEventListener('click', playMines));
   }
 
 };
