@@ -1,5 +1,7 @@
 'use strict';
 
+const CELLS_COUNT = 5;
+
 document.querySelector('.money').innerHTML = localStorage.getItem('money');
 
 const gameInfo = document.querySelector('.game__info');
@@ -58,7 +60,7 @@ function move(event) {
     document.querySelector('.money').innerHTML = localStorage.getItem('money');
     playMore.style.display = 'block';
   } else {
-    bettedMoney *= stepsCount / 5;
+    bettedMoney *= stepsCount / CELLS_COUNT;
     const winMoney = Math.floor(bettedMoney);
     earnedMoney.innerHTML = `${winMoney}`;
     cell.style.backgroundColor = 'green';
@@ -72,7 +74,7 @@ function move(event) {
 
 const generateRandomArray = (max) => {
   const arr = [];
-  while (arr.length < 5) {
+  while (arr.length < CELLS_COUNT) {
     const num = Math.floor(Math.random() * max);
     if (!arr.includes(num)) {
       arr.push(num);
