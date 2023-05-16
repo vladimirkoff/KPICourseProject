@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="styles/helperUIStyle.css">
+  <link rel="stylesheet" href="styles/towerStyle.css">
+  <script type="module" src="scripts/tower.js"></script>
+  <title>Tower</title>
+</head>
+
+<body>
+<div id="info-bar">
+  <div id="back">Main</div>
+  <div id="balance-info">
+    <span id="balance-text">Current balance:</span>
+    <span id="balance-value">0</span>
+    <span id="balance-change"></span>
+  </div>
+  <div id="total-info">
+    <span id="total-text">Total bet:</span>
+    <span id="total-value">0</span>
+    <span id="total-change"></span>
+  </div>
+</div>
+<div id="tower-container">
+  <div id="tower-menu">
+    <div id="logo-container"></div>
+    <div id="bet-container">
+      <p>───────── Enter bet amount ─────────</p>
+      <input type="text" inputmode="numeric" id="bet-amount-input" placeholder="Bet amount" value="1">
+      <div class="button-group">
+        <button id="min-bet">Min</button>
+        <button id="decrease-bet">-</button>
+        <button id="increase-bet">+</button>
+        <button id="max-bet">Max</button>
+      </div>
+    </div>
+    <div id="difficulties-container">
+      <p>───────── Select difficult ─────────</p>
+      <input type="radio" id="easy" name="difficulty" value="easy" checked>
+      <label for="easy">Easy<span>3 Out Of 4 Blocks Are Safe</span></label>
+
+      <input type="radio" id="medium" name="difficulty" value="medium">
+      <label for="medium">Medium<span>2 Out Of 3 Blocks Are Safe</span></label>
+
+      <input type="radio" id="hard" name="difficulty" value="hard">
+      <label for="hard">Hard<span>1 Out Of 2 Blocks Are Safe</span></label>
+
+      <input type="radio" id="extreme" name="difficulty" value="extreme">
+      <label for="extreme">Extreme<span>1 Out Of 3 Blocks Are Safe</span></label>
+
+      <input type="radio" id="nightmare" name="difficulty" value="nightmare">
+      <label for="nightmare">Nightmare<span>1 Out Of 4 Blocks Are Safe</span></label>
+    </div>
+    <button id="start">Start</button>
+  </div>
+  <div id="multipliers-container"></div>
+  <div id="blocks-container"></div>
+</div>
+</body>
+
+</html>
