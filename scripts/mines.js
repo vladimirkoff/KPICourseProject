@@ -12,7 +12,7 @@ const steps = document.querySelector('.count__steps');
 const earnedMoney = document.querySelector('.earned__money');
 const added = document.querySelector('.added');
 const giveButton = document.querySelector('.give__money');
-let stepsCount = +(steps.innerHTML);
+let stepsCount = parseInt(steps.innerHTML);
 
 const showCells = (array, bombs) => {
   array.forEach((elem) => (bombs.includes(array.indexOf(elem)) ?
@@ -42,8 +42,8 @@ const give = (money, winMoney, bombs) => {
 };
 
 function move(event) {
-  let money = +(localStorage.getItem('money'));
-  let bettedMoney = +(document.querySelector('.input__money').value);
+  let money = parseInt(localStorage.getItem('money'));
+  let bettedMoney = parseInt(document.querySelector('.input__money').value);
   stepsCount++;
   steps.innerHTML = stepsCount;
   const cell = event.target;
@@ -84,8 +84,7 @@ const generateRandomArray = (max) => {
 const start = () => {
   input.readOnly = true;
   document.querySelector('.error__message').style.display = 'none';
-  const bettedMoney = +(document.querySelector('.input__money').value);
-
+  const bettedMoney = parseInt(document.querySelector('.input__money').value);
   if (isNaN(bettedMoney) || bettedMoney <= 0) {
     document.querySelector('.error__message').style.display = 'block';
     input.readOnly = false;
