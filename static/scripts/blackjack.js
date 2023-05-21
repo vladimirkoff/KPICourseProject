@@ -33,8 +33,27 @@ const game = {
 const You = game['you'];
 const Dealer = game['dealer'];
 
-//
-// const tink = new Audio('./static/sounds/tink.wav');
+const showScore = (activeplayer) => {
+  if (activeplayer['score']>21) {
+    document.querySelector(activeplayer['scoreSpan']).textContent = 'BUST!';
+    document.querySelector(activeplayer['scoreSpan']).style.color = 'yellow';
+  } else {
+    document.querySelector(activeplayer['scoreSpan']).textContent = activeplayer['score'];
+  }
+};
+
+const updateScore = (currentcard, activeplayer) => {
+  // For Ace
+  if (currentcard == 'AC' || currentcard == 'AD' || currentcard == 'AH' || currentcard == 'AS') {
+    if ((activeplayer['score'] + game['cardsmap'][currentcard][1]) <= 21) {
+      activeplayer['score'] += game['cardsmap'][currentcard][1];
+    } else {
+      activeplayer['score'] += game['cardsmap'][currentcard][0];
+    }
+  } else { // For Other Cases
+    activeplayer['score'] += game['cardsmap'][currentcard];
+  }
+};
 
 const drawCard = (activePlayer) => {
   const randomNumber = Math.floor(Math.random() * (game['cards'].length));
@@ -50,30 +69,10 @@ const drawCard = (activePlayer) => {
   showScore(activePlayer);
 };
 
-function updateScore(currentcard, activeplayer) {
-  // For Ace
-  if (currentcard == 'AC' || currentcard == 'AD' || currentcard == 'AH' || currentcard == 'AS') {
-    if ((activeplayer['score'] + game['cardsmap'][currentcard][1]) <= 21) {
-      activeplayer['score'] += game['cardsmap'][currentcard][1];
-    } else {
-      activeplayer['score'] += game['cardsmap'][currentcard][0];
-    }
-  } else { // For Other Cases
-    activeplayer['score'] += game['cardsmap'][currentcard];
-  }
-}
 
-function showScore(activeplayer) {
-  if (activeplayer['score']>21) {
-    document.querySelector(activeplayer['scoreSpan']).textContent = 'BUST!';
-    document.querySelector(activeplayer['scoreSpan']).style.color = 'yellow';
-  } else {
-    document.querySelector(activeplayer['scoreSpan']).textContent = activeplayer['score'];
-  }
-}
 
 // Compute Winner Function
-function findwinner() {
+const findwinner = () => {
   let winner;
 
   if (You['score']<=21) {
@@ -93,13 +92,7 @@ function findwinner() {
     game['draws']++;
   }
   return winner;
-}
-
-// // Results
-// const winSound = new Audio('./static/sounds/cash.mp3');
-// const cheers = new Audio('./static/sounds/cheer.wav');
-// const loseSound = new Audio('./static/sounds/aww.mp3');
-// const drawSound = new Audio('./static/sounds/ohh.mp3');
+};
 
 const showResults = (winner) => {
   if (winner == You) {
