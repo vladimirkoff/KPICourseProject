@@ -6,7 +6,7 @@ const money = {
   bettedValue: 0,
 };
 
-if (!money.value || isNaN(money.value)){
+if (!money.value || isNaN(money.value)) {
   money.value = 0;
 }
 
@@ -17,11 +17,6 @@ const doubleButton = document.querySelector('#double');
 const dealButton = document.querySelector('#deal');
 const standButton = document.querySelector('#stand');
 
-betField.disabled = false;
-dealButton.disabled = false;
-doubleButton.disabled = false;
-hitButton.disabled = true;
-standButton.disabled = true;
 
 const game = {
   'you': {'scoreSpan': '#yourscore', 'div': '#your-box', 'score': ''},
@@ -33,18 +28,46 @@ const game = {
 const You = game['you'];
 const Dealer = game['dealer'];
 
-const showScore = (activeplayer) => {
-  if (activeplayer['score']>21) {
-    document.querySelector(activeplayer['scoreSpan']).textContent = 'BUST!';
-    document.querySelector(activeplayer['scoreSpan']).style.color = 'yellow';
+
+const gameState = (state) => {
+  if (!state) {
+    betField.disabled = false;
+    dealButton.disabled = false;
+    doubleButton.disabled = false;
+    hitButton.disabled = true;
+    standButton.disabled = true;
   } else {
-    document.querySelector(activeplayer['scoreSpan']).textContent = activeplayer['score'];
+    betField.disabled = true;
+    dealButton.disabled = true;
+    doubleButton.disabled = true;
+    hitButton.disabled = false;
+    standButton.disabled = false;
+  };
+};
+
+gameState(false);
+
+const showScore = (activeplayer) => {
+  const activeScoreSpan = document.querySelector(activeplayer['scoreSpan']);
+  if (activeplayer['score']>21) {
+    activeScoreSpan.textContent = 'BUST!';
+    activeScoreSpan.style.color = 'yellow';
+    gameState(false);
+    showResults(findwinner());
+  } else if (activeplayer['score'] === 21) {
+    activeScoreSpan.textContent = 'BLACKJACK!!!!!';
+    activeScoreSpan.style.color = 'blue';
+    standButtonClick();
+  } else {
+    activeScoreSpan.textContent = activeplayer['score'];
   }
 };
 
 const updateScore = (currentcard, activeplayer) => {
-  // For Ace
-  if (currentcard == 'AC' || currentcard == 'AD' || currentcard == 'AH' || currentcard == 'AS') {
+  if (currentcard == 'AC' ||
+      currentcard == 'AD' ||
+      currentcard == 'AH' ||
+      currentcard == 'AS') {
     if ((activeplayer['score'] + game['cardsmap'][currentcard][1]) <= 21) {
       activeplayer['score'] += game['cardsmap'][currentcard][1];
     } else {
@@ -61,15 +84,9 @@ const drawCard = (activePlayer) => {
   const card = document.createElement('img');
   card.src = `../static/assets/${currentCard}.png`;
   document.querySelector(activePlayer['div']).appendChild(card);
-
-  // Update Score
   updateScore(currentCard, activePlayer);
-
-  // Show Score
   showScore(activePlayer);
 };
-
-
 
 // Compute Winner Function
 const findwinner = () => {
@@ -120,15 +137,10 @@ const hitButtonClick = () => {
 };
 
 const dealButtonClick = () => {
-  console.log(betField.value);
   if (!betField.value || isNaN(betField.value)) {
-    alert('Check stavku');
+    alert('Bet error');
     return;
   }
-  if (You['score']=== 0 || Dealer['score']===0) {
-    alert('Please End your game first');
-    return;
-  };
   const youImg = document.
       querySelector('#your-box').querySelectorAll('img');
 
@@ -150,17 +162,11 @@ const dealButtonClick = () => {
   document.querySelector(Dealer['scoreSpan']).textContent = Dealer['score'];
   document.querySelector(Dealer['scoreSpan']).style.color = 'black';
 
-  document.querySelector('#command').textContent = 'Let\'s Play';
+  document.querySelector('#command').textContent = 'Your turn!';
   document.querySelector('#command').style.color = 'black';
 
-  betField.disabled = true;
-  dealButton.disabled = true;
-  doubleButton.disabled = true;
-  hitButton.disabled = false;
-  standButton.disabled = false;
+  gameState(true);
   money.bettedValue = parseInt(betField.value);
-
-  console.log(money);
 };
 
 
@@ -172,11 +178,7 @@ const standButtonClick = () => {
       drawCard(Dealer);
     }
     setTimeout(function() {
-      betField.disabled = false;
-      dealButton.disabled = false;
-      doubleButton.disabled = false;
-      hitButton.disabled = true;
-      standButton.disabled = true;
+      gameState(false);
       showResults(findwinner());
     }, 800);
   }
