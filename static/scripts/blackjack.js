@@ -16,6 +16,7 @@ const hitButton = document.querySelector('#hit');
 const doubleButton = document.querySelector('#double');
 const dealButton = document.querySelector('#deal');
 const standButton = document.querySelector('#stand');
+const commandTitle =  document.querySelector('#command');
 
 
 const game = {
@@ -88,7 +89,6 @@ const drawCard = (activePlayer) => {
   showScore(activePlayer);
 };
 
-// Compute Winner Function
 const findwinner = () => {
   let winner;
 
@@ -112,17 +112,18 @@ const findwinner = () => {
 };
 
 const showResults = (winner) => {
+  console.log("winner");
   if (winner == You) {
-    document.querySelector('#command').textContent = 'You Won!';
-    document.querySelector('#command').style.color = 'green';
+    commandTitle.textContent = 'You Won!';
+    commandTitle.style.color = 'green';
     money.value += money.bettedValue;
   } else if (winner == Dealer) {
-    document.querySelector('#command').textContent = 'You Lost!';
-    document.querySelector('#command').style.color = 'red';
+    commandTitle.textContent = 'You Lost!';
+    commandTitle.style.color = 'red';
     money.value -= money.bettedValue;
   } else {
-    document.querySelector('#command').textContent = 'You Drew!';
-    document.querySelector('#command').style.color = 'orange';
+    commandTitle.textContent = 'You Drew!';
+    commandTitle.style.color = 'orange';
   }
   moneyField.innerHTML = money.value;
   localStorage.setItem('money', money.value);
@@ -176,6 +177,9 @@ const standButtonClick = () => {
   } else {
     while (Dealer['score']<16) {
       drawCard(Dealer);
+      if(Dealer['score'] > 21){
+        return;
+      }
     }
     setTimeout(function() {
       gameState(false);
