@@ -10,15 +10,6 @@ if (!money.value || isNaN(money.value)) {
   money.value = 0;
 }
 
-const betField = document
-    .querySelector('body > div.main > div.row3 > input[type=text]');
-const hitButton = document.querySelector('#hit');
-const doubleButton = document.querySelector('#double');
-const dealButton = document.querySelector('#deal');
-const standButton = document.querySelector('#stand');
-const commandTitle =  document.querySelector('#command');
-
-
 const game = {
   'you': {'scoreSpan': '#yourscore', 'div': '#your-box', 'score': ''},
   'dealer': {'scoreSpan': '#dealerscore', 'div': '#dealer-box', 'score': ''},
@@ -28,6 +19,18 @@ const game = {
 };
 const You = game['you'];
 const Dealer = game['dealer'];
+
+const betField = document
+    .querySelector('body > div.main > div.row3 > input[type=text]');
+const hitButton = document.querySelector('#hit');
+const doubleButton = document.querySelector('#double');
+const dealButton = document.querySelector('#deal');
+const standButton = document.querySelector('#stand');
+const commandTitle =  document.querySelector('#command');
+const dealerScoreSpan =  document.querySelector(Dealer['scoreSpan']);
+const youScoreSpan = document.querySelector(You['scoreSpan']);
+
+
 
 
 const gameState = (state) => {
@@ -157,14 +160,14 @@ const dealButtonClick = () => {
 
   game['cards'] = cards;
   You['score'] = 0;
-  document.querySelector(You['scoreSpan']).textContent = You['score'];
-  document.querySelector(You['scoreSpan']).style.color = 'black';
+  youScoreSpan.textContent = You['score'];
+  youScoreSpan.style.color = 'black';
   Dealer['score'] = 0;
-  document.querySelector(Dealer['scoreSpan']).textContent = Dealer['score'];
-  document.querySelector(Dealer['scoreSpan']).style.color = 'black';
+  dealerScoreSpan.textContent = Dealer['score'];
+  dealerScoreSpan.style.color = 'black';
 
-  document.querySelector('#command').textContent = 'Your turn!';
-  document.querySelector('#command').style.color = 'black';
+  commandTitle.textContent = 'Your turn!';
+  commandTitle.style.color = 'black';
 
   gameState(true);
   money.bettedValue = parseInt(betField.value);
