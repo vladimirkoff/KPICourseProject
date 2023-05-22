@@ -8,29 +8,28 @@ const closeButton = document.querySelector('.back__button');
 const added = document.querySelector('.added');
 const input = document.querySelector('.input__money');
 
-const elements = [1,2,3,4,5,6,7];
+const elements = [1, 2, 3, 4, 5, 6, 7];
 
 const spin = (roll) => {
   const num = Math.floor(Math.random() * elements.length);
   const current = elements[num];
-  const next = !elements[num+1] ? elements[0] : elements[num+1];
-  const previous = !elements[num-1] ? elements[elements.length-1] : elements[num-1];
+  const next = !elements[num + 1] ? elements[0] : elements[num + 1];
+  const previous = !elements[num - 1] ?
+    elements[elements.length - 1] :
+    elements[num - 1];
   const cell = [previous, current, next];
-
   const delay = 200;
-
   for (let i = 0; i < cell.length; i++) {
     setTimeout(() => {
       roll.children[i].innerHTML = cell[i];
-    }, delay * (i+1));
+    }, delay * (i + 1));
   }
 };
 
-const maxOccurrences = (arr) =>{
+const maxOccurrences = (arr) => {
   const occurrences = {};
   let maxCount = 0;
-
-  for(const elem of arr){
+  for (const elem of arr) {
     if (typeof occurrences[elem.innerHTML] === 'undefined') {
       occurrences[elem.innerHTML] = 1;
     } else {
@@ -40,19 +39,18 @@ const maxOccurrences = (arr) =>{
       maxCount = occurrences[elem.innerHTML];
     }
   }
-
   return maxCount;
-}
+};
 
 const checkWin = (array, money, bettedMoney) => {
   const win = maxOccurrences(array);
-  if (win == 1) {
+  if (win === 1) {
     const lostMoney = -2 * bettedMoney;
     added.innerHTML = lostMoney;
     added.style.color = 'red';
     money += lostMoney;
   } else {
-    const winMoney = bettedMoney * (win-2);
+    const winMoney = bettedMoney * (win - 2);
     added.innerHTML = '+' + winMoney;
     added.style.color = 'green';
     money += winMoney;
@@ -63,13 +61,12 @@ const checkWin = (array, money, bettedMoney) => {
   input.readOnly = false;
 };
 
-const slots = () => {
+function slots() {
   input.readOnly = true;
-  let money = +(localStorage.getItem('money'));
-  let bettedMoney = +(document.querySelector('.input__money').value);
+  const money = +(localStorage.getItem('money'));
+  const bettedMoney = +(document.querySelector('.input__money').value);
   document.querySelector('.error__message').style.display = 'none';
   added.innerHTML = '';
-
   if (isNaN(bettedMoney) || bettedMoney <= 0) {
     document.querySelector('.error__message').style.display = 'block';
     input.readOnly = false;
@@ -80,17 +77,15 @@ const slots = () => {
         children.innerHTML = '';
       }
     }
-
     let delay = 0;
     for (const roll of rolls) {
       setTimeout(() => spin(roll), delay);
       delay += 1000;
     }
-
     const current = Array.from(document.querySelectorAll('.current'));
     setTimeout(() => checkWin(current, money, bettedMoney), delay);
   }
-};
+}
 
 startButton.onclick = slots;
 closeButton.onclick = () => window.close();
