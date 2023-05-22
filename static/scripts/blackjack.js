@@ -1,4 +1,4 @@
-import {cardsMap, cards} from './utils/cardsMapHelper.js';
+import { cardsMap, cards } from './utils/cardsMapHelper.js';
 
 const moneyField = document.querySelector('body > div.header > p');
 const money = {
@@ -11,10 +11,10 @@ if (!money.value || isNaN(money.value)) {
 }
 
 const game = {
-  'you': {'scoreSpan': '#yourscore', 'div': '#your-box', 'score': ''},
-  'dealer': {'scoreSpan': '#dealerscore', 'div': '#dealer-box', 'score': ''},
+  'you': { 'scoreSpan': '#yourscore', 'div': '#your-box', 'score': '' },
+  'dealer': { 'scoreSpan': '#dealerscore', 'div': '#dealer-box', 'score': '' },
 
-  'cards': cards,
+  cards,
   'cardsmap': cardsMap,
 };
 const You = game['you'];
@@ -22,14 +22,14 @@ const Dealer = game['dealer'];
 
 
 const betField = document
-    .querySelector('body > div.main > div.row3 > input[type=text]');
+  .querySelector('body > div.main > div.row3 > input[type=text]');
 const hitButton = document.querySelector('#hit');
 const doubleButton = document.querySelector('#double');
 const dealButton = document.querySelector('#deal');
 const standButton = document.querySelector('#stand');
 const commandTitle =  document.querySelector('#command');
 const dealerScoreSpan = document.querySelector(Dealer['scoreSpan']);
-const youScoreSpan = document.querySelector(You['scoreSpan'])
+const youScoreSpan = document.querySelector(You['scoreSpan']);
 
 
 const gameState = (state) => {
@@ -45,14 +45,14 @@ const gameState = (state) => {
     doubleButton.disabled = true;
     hitButton.disabled = false;
     standButton.disabled = false;
-  };
+  }
 };
 
 gameState(false);
 
 const showScore = (activeplayer) => {
   const activeScoreSpan = document.querySelector(activeplayer['scoreSpan']);
-  if (activeplayer['score']>21) {
+  if (activeplayer['score'] > 21) {
     activeScoreSpan.textContent = 'BUST!';
     activeScoreSpan.style.color = 'yellow';
     gameState(false);
@@ -94,8 +94,8 @@ const drawCard = (activePlayer) => {
 const findwinner = () => {
   let winner;
 
-  if (You['score']<=21) {
-    if (Dealer['score']<You['score'] || Dealer['score']>21) {
+  if (You['score'] <= 21) {
+    if (Dealer['score'] < You['score'] || Dealer['score'] > 21) {
       game['wins']++;
       winner = You;
     } else if (Dealer['score'] == You['score']) {
@@ -104,10 +104,10 @@ const findwinner = () => {
       game['losses']++;
       winner = Dealer;
     }
-  } else if (You['score']>21 && Dealer['score']<=21) {
+  } else if (You['score'] > 21 && Dealer['score'] <= 21) {
     game['losses']++;
     winner = Dealer;
-  } else if (You['score']>21 && Dealer['score']>21) {
+  } else if (You['score'] > 21 && Dealer['score'] > 21) {
     game['draws']++;
   }
   return winner;
@@ -132,7 +132,7 @@ const showResults = (winner) => {
 
 const hitButtonClick = () => {
   if (Dealer['score'] === 0) {
-    if (You['score']<=21) {
+    if (You['score'] <= 21) {
       drawCard(You);
     }
   }
@@ -144,15 +144,15 @@ const dealButtonClick = () => {
     return;
   }
   const youImg = document.
-      querySelector('#your-box').querySelectorAll('img');
+    querySelector('#your-box').querySelectorAll('img');
 
   const dealerImg = document.
-      querySelector('#dealer-box').querySelectorAll('img');
+    querySelector('#dealer-box').querySelectorAll('img');
 
-  for (let i=0; i < youImg.length; i++) {
+  for (let i = 0; i < youImg.length; i++) {
     youImg[i].remove();
   }
-  for (let i=0; i < dealerImg.length; i++) {
+  for (let i = 0; i < dealerImg.length; i++) {
     dealerImg[i].remove();
   }
 
@@ -173,16 +173,16 @@ const dealButtonClick = () => {
 
 
 const standButtonClick = () => {
-  if (You['score']===0) {
+  if (You['score'] === 0) {
     alert('Please Hit Some Cards First!');
   } else {
-    while (Dealer['score']<16) {
+    while (Dealer['score'] < 16) {
       drawCard(Dealer);
-      if(Dealer['score'] >= 21){
+      if (Dealer['score'] >= 21) {
         return;
       }
     }
-    setTimeout(function() {
+    setTimeout(() => {
       gameState(false);
       showResults(findwinner());
     }, 800);
