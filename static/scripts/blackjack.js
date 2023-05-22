@@ -15,16 +15,10 @@ if (!money.value || isNaN(money.value)) {
   money.value = 0;
 }
 
-const game = {
-  'you': { 'scoreSpan': '#yourscore', 'div': '#your-box', 'score': '' },
-  'dealer': { 'scoreSpan': '#dealerscore', 'div': '#dealer-box', 'score': '' },
+const deck = { cards, cardsMap };
 
-  cards,
-  'cardsmap': cardsMap,
-};
-const You = game['you'];
-const Dealer = game['dealer'];
-
+const player = { scoreSpan: '#yourscore', div: '#your-box', score: '' };
+const dealer = { scoreSpan: '#dealerscore', div: '#dealer-box', score: '' };
 
 const betField = document
   .querySelector('body > div.main > div.row3 > input[type=text]');
@@ -33,8 +27,8 @@ const doubleButton = document.querySelector('#double');
 const dealButton = document.querySelector('#deal');
 const standButton = document.querySelector('#stand');
 const commandTitle =  document.querySelector('#command');
-const dealerScoreSpan = document.querySelector(Dealer['scoreSpan']);
-const youScoreSpan = document.querySelector(You['scoreSpan']);
+const dealerScoreSpan = document.querySelector(dealer.scoreSpan);
+const playerScoreSpan = document.querySelector(player.scoreSpan);
 
 const betUI = [betField, dealButton, doubleButton];
 const playUI = [hitButton, standButton];
@@ -45,7 +39,6 @@ const gameState = (disabled) => {
 };
 
 gameState(false);
-
 
 const resultHandlers = {
   'win': () => {
@@ -74,8 +67,8 @@ const showResults = (result) => {
 const checkBust = (score) => score > BLACKJACK;
 
 const finishGame = () => {
-  const dealerScore = Dealer['score'];
-  const playerScore = You['score'];
+  const dealerScore = dealer.score;
+  const playerScore = player.score;
   const playerBust = checkBust(playerScore);
   const dealerBust = checkBust(dealerScore);
   const draw =  playerScore === dealerScore || (playerBust && dealerBust);
@@ -86,8 +79,8 @@ const finishGame = () => {
 };
 
 const showScore = (activePlayer) => {
-  const activeScoreSpan = document.querySelector(activePlayer['scoreSpan']);
-  const score = activePlayer['score'];
+  const activeScoreSpan = document.querySelector(activePlayer.scoreSpan);
+  const { score } = activePlayer;
   if (score > BLACKJACK) {
     activeScoreSpan.textContent = 'BUST!';
     activeScoreSpan.style.color = 'yellow';
@@ -98,34 +91,35 @@ const showScore = (activePlayer) => {
     activeScoreSpan.style.color = 'blue';
     standButtonClick();
   } else {
-    activeScoreSpan.textContent = activePlayer['score'];
+    activeScoreSpan.textContent = score;
   }
 };
 
 const updateScore = (currentCard, activePlayer) => {
-  const score = game['cardsmap'][currentCard];
+  const score = deck.cardsMap[currentCard];
   if (currentCard.startsWith('A')) { // For aces
     const [lowValue, highValue] = score;
-    const newScore = activePlayer['score'] + highValue;
-    activePlayer['score'] += newScore <= BLACKJACK ? highValue : lowValue;
+    const newScore = activePlayer.score + highValue;
+    activePlayer.score += newScore <= BLACKJACK ? highValue : lowValue;
   } else { // For others cards
-    activePlayer['score'] += score;
+    activePlayer.score += score;
   }
 };
 
 const drawCard = (activePlayer) => {
-  const randomNumber = Math.floor(Math.random() * (game['cards'].length));
-  const currentCard = game['cards'].splice(randomNumber, 1);
+  const { cards } = deck;
+  const randomNumber = Math.floor(Math.random() * (cards.length));
+  const currentCard = cards.splice(randomNumber, 1);
   const card = document.createElement('img');
   card.src = IMG_PATH + currentCard + '.png';
-  document.querySelector(activePlayer['div']).appendChild(card);
+  document.querySelector(activePlayer.div).appendChild(card);
   updateScore(...currentCard, activePlayer);
   showScore(activePlayer);
 };
 
 const hitButtonClick = () => {
-  if (!Dealer['score'] && (You['score'] <= BLACKJACK)) {
-    drawCard(You);
+  if (!dealer.score && (player.score <= BLACKJACK)) {
+    drawCard(player);
   }
 };
 
@@ -143,37 +137,31 @@ const dealButtonClick = () => {
   for (let i = 0; i < dealerImg.length; i++) {
     dealerImg[i].remove();
   }
-  game['cards'] = cards;
-  You['score'] = 0;
-  youScoreSpan.textContent = You['score'];
-  youScoreSpan.style.color = 'black';
-  Dealer['score'] = 0;
-  dealerScoreSpan.textContent = Dealer['score'];
+  deck.cards = cards;
+  player.score = 0;
+  playerScoreSpan.textContent = '0';
+  playerScoreSpan.style.color = 'black';
+  dealer.score = 0;
+  dealerScoreSpan.textContent = '0';
   dealerScoreSpan.style.color = 'black';
-
   commandTitle.textContent = 'Your turn!';
   commandTitle.style.color = 'black';
-
   gameState(true);
   money.bettedValue = parseInt(betField.value);
 };
 
-
 function standButtonClick() {
-  if (!You['score']) {
-    alert('Please Hit Some Cards First!');
-  } else {
-    while (Dealer['score'] < DEALER_SAFE_SCORE) {
-      drawCard(Dealer);
-      if (Dealer['score'] >= BLACKJACK) {
-        return;
-      }
+  if (!player.score) return;
+  while (dealer.score < DEALER_SAFE_SCORE) {
+    drawCard(dealer);
+    if (dealer.score >= BLACKJACK) {
+      return;
     }
-    setTimeout(() => {
-      gameState(false);
-      finishGame();
-    }, SHOW_RESULT_DELAY);
   }
+  setTimeout(() => {
+    gameState(false);
+    finishGame();
+  }, SHOW_RESULT_DELAY);
 }
 
 const doubleButtonClick = () => {
