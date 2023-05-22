@@ -31,21 +31,12 @@ const commandTitle =  document.querySelector('#command');
 const dealerScoreSpan = document.querySelector(Dealer['scoreSpan']);
 const youScoreSpan = document.querySelector(You['scoreSpan']);
 
+const betUI = [betField, dealButton, doubleButton];
+const playUI = [hitButton, standButton];
 
-const gameState = (state) => {
-  if (!state) {
-    betField.disabled = false;
-    dealButton.disabled = false;
-    doubleButton.disabled = false;
-    hitButton.disabled = true;
-    standButton.disabled = true;
-  } else {
-    betField.disabled = true;
-    dealButton.disabled = true;
-    doubleButton.disabled = true;
-    hitButton.disabled = false;
-    standButton.disabled = false;
-  }
+const gameState = (disabled) => {
+  betUI.forEach((element) => element.disabled = disabled);
+  playUI.forEach((element) => element.disabled = !disabled);
 };
 
 gameState(false);
@@ -67,17 +58,13 @@ const showScore = (activePlayer) => {
 };
 
 const updateScore = (currentCard, activePlayer) => {
-  if (currentCard == 'AC' ||
-      currentCard == 'AD' ||
-      currentCard == 'AH' ||
-      currentCard == 'AS') {
-    if ((activePlayer['score'] + game['cardsmap'][currentCard][1]) <= 21) {
-      activePlayer['score'] += game['cardsmap'][currentCard][1];
-    } else {
-      activePlayer['score'] += game['cardsmap'][currentCard][0];
-    }
-  } else { // For Other Cases
-    activePlayer['score'] += game['cardsmap'][currentCard];
+  const score = game['cardsmap'][currentCard];
+  if (currentCard.startsWith('A')) { // For aces
+    const [lowValue, highValue] = score;
+    const newScore = activePlayer['score'] + highValue;
+    activePlayer['score'] += newScore <= 21 ? highValue : lowValue;
+  } else { // For others cards
+    activePlayer['score'] += score;
   }
 };
 
@@ -87,7 +74,7 @@ const drawCard = (activePlayer) => {
   const card = document.createElement('img');
   card.src = `../static/assets/${currentCard}.png`;
   document.querySelector(activePlayer['div']).appendChild(card);
-  updateScore(currentCard, activePlayer);
+  updateScore(...currentCard, activePlayer);
   showScore(activePlayer);
 };
 
