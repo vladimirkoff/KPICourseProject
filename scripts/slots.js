@@ -1,5 +1,7 @@
 'use strict';
 
+const DELAY = 200;
+
 document.querySelector('.money').innerHTML = localStorage.getItem('money');
 
 const rolls = Array.from(document.querySelectorAll('.roll'));
@@ -18,11 +20,10 @@ const spin = (roll) => {
     elements[elements.length - 1] :
     elements[num - 1];
   const cell = [previous, current, next];
-  const delay = 200;
   for (let i = 0; i < cell.length; i++) {
     setTimeout(() => {
       roll.children[i].innerHTML = cell[i];
-    }, delay * (i + 1));
+    }, DELAY * (i + 1));
   }
 };
 
@@ -46,12 +47,12 @@ const checkWin = (array, money, bettedMoney) => {
   const win = maxOccurrences(array);
   if (win === 1) {
     const lostMoney = -2 * bettedMoney;
-    added.innerHTML = lostMoney;
+    added.innerHTML = `${lostMoney}`;
     added.style.color = 'red';
     money += lostMoney;
   } else {
     const winMoney = bettedMoney * (win - 2);
-    added.innerHTML = '+' + winMoney;
+    added.innerHTML = `+${winMoney}`;
     added.style.color = 'green';
     money += winMoney;
   }
@@ -63,8 +64,8 @@ const checkWin = (array, money, bettedMoney) => {
 
 function slots() {
   input.readOnly = true;
-  const money = +(localStorage.getItem('money'));
-  const bettedMoney = +(document.querySelector('.input__money').value);
+  const money = parseInt(localStorage.getItem('money'));
+  const bettedMoney = parseInt(document.querySelector('.input__money').value);
   document.querySelector('.error__message').style.display = 'none';
   added.innerHTML = '';
   if (isNaN(bettedMoney) || bettedMoney <= 0) {
