@@ -53,7 +53,8 @@ export const cardsMap = {
   'AS': [1, 11],
 };
 
-export const cards = ['2C',
+export const cards = [
+  '2C',
   '3C',
   '4C',
   '5C',
