@@ -50,34 +50,34 @@ const gameState = (state) => {
 
 gameState(false);
 
-const showScore = (activeplayer) => {
-  const activeScoreSpan = document.querySelector(activeplayer['scoreSpan']);
-  if (activeplayer['score'] > 21) {
+const showScore = (activePlayer) => {
+  const activeScoreSpan = document.querySelector(activePlayer['scoreSpan']);
+  if (activePlayer['score'] > 21) {
     activeScoreSpan.textContent = 'BUST!';
     activeScoreSpan.style.color = 'yellow';
     gameState(false);
-    showResults(findwinner());
-  } else if (activeplayer['score'] === 21) {
+    showResults(findWinner());
+  } else if (activePlayer['score'] === 21) {
     activeScoreSpan.textContent = 'BLACKJACK!!!!!';
     activeScoreSpan.style.color = 'blue';
     standButtonClick();
   } else {
-    activeScoreSpan.textContent = activeplayer['score'];
+    activeScoreSpan.textContent = activePlayer['score'];
   }
 };
 
-const updateScore = (currentcard, activeplayer) => {
-  if (currentcard == 'AC' ||
-      currentcard == 'AD' ||
-      currentcard == 'AH' ||
-      currentcard == 'AS') {
-    if ((activeplayer['score'] + game['cardsmap'][currentcard][1]) <= 21) {
-      activeplayer['score'] += game['cardsmap'][currentcard][1];
+const updateScore = (currentCard, activePlayer) => {
+  if (currentCard == 'AC' ||
+      currentCard == 'AD' ||
+      currentCard == 'AH' ||
+      currentCard == 'AS') {
+    if ((activePlayer['score'] + game['cardsmap'][currentCard][1]) <= 21) {
+      activePlayer['score'] += game['cardsmap'][currentCard][1];
     } else {
-      activeplayer['score'] += game['cardsmap'][currentcard][0];
+      activePlayer['score'] += game['cardsmap'][currentCard][0];
     }
   } else { // For Other Cases
-    activeplayer['score'] += game['cardsmap'][currentcard];
+    activePlayer['score'] += game['cardsmap'][currentCard];
   }
 };
 
@@ -91,7 +91,7 @@ const drawCard = (activePlayer) => {
   showScore(activePlayer);
 };
 
-const findwinner = () => {
+const findWinner = () => {
   let winner;
 
   if (You['score'] <= 21) {
@@ -184,7 +184,7 @@ const standButtonClick = () => {
     }
     setTimeout(() => {
       gameState(false);
-      showResults(findwinner());
+      showResults(findWinner());
     }, 800);
   }
 };
