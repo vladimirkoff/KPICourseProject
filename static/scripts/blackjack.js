@@ -3,6 +3,7 @@ import { cardsMap, cards } from './utils/cardsMapHelper.js';
 const BLACKJACK = 21;
 const SHOW_RESULT_DELAY = 800;
 const DEALER_SAFE_SCORE = 16;
+const IMG_PATH = '../static/assets/';
 
 const moneyField = document.querySelector('body > div.header > p');
 const money = {
@@ -86,12 +87,13 @@ const finishGame = () => {
 
 const showScore = (activePlayer) => {
   const activeScoreSpan = document.querySelector(activePlayer['scoreSpan']);
-  if (activePlayer['score'] > BLACKJACK) {
+  const score = activePlayer['score'];
+  if (score > BLACKJACK) {
     activeScoreSpan.textContent = 'BUST!';
     activeScoreSpan.style.color = 'yellow';
     gameState(false);
     finishGame();
-  } else if (activePlayer['score'] === BLACKJACK) {
+  } else if (score === BLACKJACK) {
     activeScoreSpan.textContent = 'BLACKJACK!!!!!';
     activeScoreSpan.style.color = 'blue';
     standButtonClick();
@@ -115,38 +117,32 @@ const drawCard = (activePlayer) => {
   const randomNumber = Math.floor(Math.random() * (game['cards'].length));
   const currentCard = game['cards'].splice(randomNumber, 1);
   const card = document.createElement('img');
-  card.src = `../static/assets/${currentCard}.png`;
+  card.src = IMG_PATH + currentCard + '.png';
   document.querySelector(activePlayer['div']).appendChild(card);
   updateScore(...currentCard, activePlayer);
   showScore(activePlayer);
 };
 
 const hitButtonClick = () => {
-  if (!Dealer['score']) {
-    if (You['score'] <= BLACKJACK) {
-      drawCard(You);
-    }
+  if (!Dealer['score'] && (You['score'] <= BLACKJACK)) {
+    drawCard(You);
   }
 };
 
 const dealButtonClick = () => {
   if (!betField.value || isNaN(betField.value)) {
-    alert('Bet error');
     return;
   }
   const youImg = document.
     querySelector('#your-box').querySelectorAll('img');
-
   const dealerImg = document.
     querySelector('#dealer-box').querySelectorAll('img');
-
   for (let i = 0; i < youImg.length; i++) {
     youImg[i].remove();
   }
   for (let i = 0; i < dealerImg.length; i++) {
     dealerImg[i].remove();
   }
-
   game['cards'] = cards;
   You['score'] = 0;
   youScoreSpan.textContent = You['score'];
@@ -181,8 +177,7 @@ function standButtonClick() {
 }
 
 const doubleButtonClick = () => {
-  betField.value *= 2;
-  if (betField.value == NaN) betField.value = 0;
+  betField.value = isNaN(betField.value) ? 0 : betField.value * 2;
 };
 
 doubleButton.addEventListener('click', doubleButtonClick);
