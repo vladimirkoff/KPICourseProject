@@ -1,5 +1,9 @@
 import { cardsMap, cards } from './utils/cardsMapHelper.js';
 
+const BLACKJACK = 21;
+const SHOW_RESULT_DELAY = 800;
+const DEALER_SAFE_SCORE = 16;
+
 const moneyField = document.querySelector('body > div.header > p');
 const money = {
   value: parseInt(localStorage.getItem('money')),
@@ -43,12 +47,12 @@ gameState(false);
 
 const showScore = (activePlayer) => {
   const activeScoreSpan = document.querySelector(activePlayer['scoreSpan']);
-  if (activePlayer['score'] > 21) {
+  if (activePlayer['score'] > BLACKJACK) {
     activeScoreSpan.textContent = 'BUST!';
     activeScoreSpan.style.color = 'yellow';
     gameState(false);
     showResults(findWinner());
-  } else if (activePlayer['score'] === 21) {
+  } else if (activePlayer['score'] === BLACKJACK) {
     activeScoreSpan.textContent = 'BLACKJACK!!!!!';
     activeScoreSpan.style.color = 'blue';
     standButtonClick();
@@ -62,7 +66,7 @@ const updateScore = (currentCard, activePlayer) => {
   if (currentCard.startsWith('A')) { // For aces
     const [lowValue, highValue] = score;
     const newScore = activePlayer['score'] + highValue;
-    activePlayer['score'] += newScore <= 21 ? highValue : lowValue;
+    activePlayer['score'] += newScore <= BLACKJACK ? highValue : lowValue;
   } else { // For others cards
     activePlayer['score'] += score;
   }
@@ -81,8 +85,8 @@ const drawCard = (activePlayer) => {
 const findWinner = () => {
   let winner;
 
-  if (You['score'] <= 21) {
-    if (Dealer['score'] < You['score'] || Dealer['score'] > 21) {
+  if (You['score'] <= BLACKJACK) {
+    if (Dealer['score'] < You['score'] || Dealer['score'] > BLACKJACK) {
       game['wins']++;
       winner = You;
     } else if (Dealer['score'] == You['score']) {
@@ -91,10 +95,10 @@ const findWinner = () => {
       game['losses']++;
       winner = Dealer;
     }
-  } else if (You['score'] > 21 && Dealer['score'] <= 21) {
+  } else if (You['score'] > BLACKJACK && Dealer['score'] <= BLACKJACK) {
     game['losses']++;
     winner = Dealer;
-  } else if (You['score'] > 21 && Dealer['score'] > 21) {
+  } else if (You['score'] > BLACKJACK && Dealer['score'] > BLACKJACK) {
     game['draws']++;
   }
   return winner;
@@ -118,8 +122,8 @@ const showResults = (winner) => {
 };
 
 const hitButtonClick = () => {
-  if (Dealer['score'] === 0) {
-    if (You['score'] <= 21) {
+  if (!Dealer['score']) {
+    if (You['score'] <= BLACKJACK) {
       drawCard(You);
     }
   }
@@ -160,19 +164,19 @@ const dealButtonClick = () => {
 
 
 const standButtonClick = () => {
-  if (You['score'] === 0) {
+  if (!You['score']) {
     alert('Please Hit Some Cards First!');
   } else {
-    while (Dealer['score'] < 16) {
+    while (Dealer['score'] < DEALER_SAFE_SCORE) {
       drawCard(Dealer);
-      if (Dealer['score'] >= 21) {
+      if (Dealer['score'] >= BLACKJACK) {
         return;
       }
     }
     setTimeout(() => {
       gameState(false);
       showResults(findWinner());
-    }, 800);
+    }, SHOW_RESULT_DELAY);
   }
 };
 
