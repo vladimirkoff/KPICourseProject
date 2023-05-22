@@ -16,9 +16,9 @@ const spin = (roll) => {
   const next = !elements[num+1] ? elements[0] : elements[num+1];
   const previous = !elements[num-1] ? elements[elements.length-1] : elements[num-1];
   const cell = [previous, current, next];
-  
+
   const delay = 200;
-  
+
   for (let i = 0; i < cell.length; i++) {
     setTimeout(() => {
       roll.children[i].innerHTML = cell[i];
@@ -80,13 +80,13 @@ const slots = () => {
         children.innerHTML = '';
       }
     }
-  
+
     let delay = 0;
     for (const roll of rolls) {
       setTimeout(() => spin(roll), delay);
-      delay += 1000; 
+      delay += 1000;
     }
-  
+
     const current = Array.from(document.querySelectorAll('.current'));
     setTimeout(() => checkWin(current, money, bettedMoney), delay);
   }
@@ -97,9 +97,3 @@ closeButton.onclick = () => window.close();
 window.addEventListener('storage', () => {
   document.querySelector('.money').innerHTML = localStorage.getItem('money');
 });
-
-
-
-
-
-
