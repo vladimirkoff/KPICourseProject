@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Roulette</title>
+  <link rel="stylesheet" href="styles/helperUIStyle.css">
+  <link rel="stylesheet" href="styles/bettingBoardStyle.css">
+  <link rel="stylesheet" href="styles/rouletteStyle.css">
+  <script type="module" src="scripts/roulette/bettingBoard.js"></script>
+  <script type="module" src="scripts/roulette/roulette.js"></script>
+</head>
+
+<body>
+<div id="bettingBoard"></div>
+<div id="wheel">
+  <img src="assets/wheel.png" alt="">
+</div>
+<div id="pointer">
+  <img src="assets/pointer.png" alt="">
+</div>
+<div id="chipContainer">
+  <div class="chip">5000</div>
+  <div class="chip">1000</div>
+  <div class="chip">500</div>
+  <div class="chip">100</div>
+  <div class="chip">50</div>
+  <div class="chip">10</div>
+  <div class="chip">5</div>
+  <div class="chip">1</div>
+</div>
+  <button id="spin">Spin</button>
+  <button id="double">Double</button>
+  <button id="undo">Undo</button>
+  <button id="clear">Clear</button>
+<div id="infoBar">
+  <div id="balanceInfo">
+    <span id="balance-text">Current balance:</span>
+    <span id="balance-value">0</span>
+    <span id="balance-change"></span>
+  </div>
+  <div id="totalBetInfo">
+    <span id="total-text">Total bet:</span>
+    <span id="total-value">0</span>
+    <span id="total-change"></span>
+  </div>
+  <div id="winNumsContainer">
+    <span id="win-num1"></span>
+    <span id="win-num2"></span>
+    <span id="win-num3"></span>
+    <span id="win-num4"></span>
+    <span id="win-num5"></span>
+    <span id="win-num6"></span>
+    <span id="win-num7"></span>
+    <span id="win-num8"></span>
+  </div>
+</div>
+</body>
+
+</html>
