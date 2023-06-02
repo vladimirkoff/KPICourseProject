@@ -10,7 +10,7 @@ html, body{
 }
 
 .container{
-       background-color: #270b3a;
+       background-color: #07052e;
        color: #fff;
        height: 100%;
        display: flex;
@@ -36,6 +36,11 @@ html, body{
        align-items: center;
        justify-content: center;
        margin-bottom: 15px;
+}
+
+.input{
+       display: flex;
+       justify-content: space-evenly;
 }
 
 .input__money{
@@ -67,14 +72,47 @@ html, body{
        border-bottom: 10px solid #ff0000;
 }
 .button{
-       font-size: 18px;
-       padding: 5px;
-       border-radius: 5px;
+       width: 40px;
+       height: 40px;
+       border-radius: 50%;
        border: none;
-       background-color: #3f980b;
+       background-color: #07025f;
        color: #fff;
        cursor: pointer;
+       position: relative;
+}
 
+.start__button::before {
+       content: '';
+       position: absolute;
+       top: 50%;
+       left: 50%;
+       transform: translate(-50%, -50%);
+       width: 0;
+       height: 0;
+       border-left: 10px solid transparent;
+       border-right: 10px solid transparent;
+       border-bottom: 14px solid #fff; /* Цвет треугольника */
+}
+
+.back__button::before,
+.back__button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 2px;
+  background-color: #fff; /* Цвет крестика */
+}
+
+.back__button::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.back__button::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .disabled {
@@ -87,14 +125,14 @@ html, body{
        justify-content: space-evenly;
        margin: 25px 0px;
        background-color: #fff;
-       color: #270b3a;
+       color: #07052e;
        border-radius: 10px;
        padding: 10px 0;
        
 }
 
 .current{
-       border: solid 7px #f7d600;
+       border: solid 7px #07052e;
        padding: 10px;
        font-size: 50px;
        width: 40px;

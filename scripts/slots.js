@@ -1,5 +1,7 @@
 'use strict';
 
+import { checkMoney } from "./utils/moneyCheck.js";
+
 const DELAY = 200;
 
 document.querySelector('.money').innerHTML = localStorage.getItem('money');
@@ -9,6 +11,7 @@ const startButton = document.querySelector('.start__button');
 const closeButton = document.querySelector('.back__button');
 const added = document.querySelector('.added');
 const input = document.querySelector('.input__money');
+const errorMessage = document.querySelector('.error__message');
 
 const elements = [1, 2, 3, 4, 5, 6, 7];
 
@@ -46,10 +49,9 @@ const maxOccurrences = (arr) => {
 const checkWin = (array, money, bettedMoney) => {
   const win = maxOccurrences(array);
   if (win === 1) {
-    const lostMoney = -2 * bettedMoney;
-    added.innerHTML = `${lostMoney}`;
+    added.innerHTML = `-${bettedMoney}`;
     added.style.color = 'red';
-    money += lostMoney;
+    money -= bettedMoney;
   } else {
     const winMoney = bettedMoney * (win - 2);
     added.innerHTML = `+${winMoney}`;
@@ -58,21 +60,12 @@ const checkWin = (array, money, bettedMoney) => {
   }
   localStorage.setItem('money', money);
   document.querySelector('.money').innerHTML = localStorage.getItem('money');
-  startButton.onclick = slots;
+  startButton.onclick = slotsMain;
   input.readOnly = false;
 };
 
-function slots() {
-  input.readOnly = true;
-  const money = parseInt(localStorage.getItem('money'));
-  const bettedMoney = parseInt(document.querySelector('.input__money').value);
-  document.querySelector('.error__message').style.display = 'none';
-  added.innerHTML = '';
-  if (isNaN(bettedMoney) || bettedMoney <= 0) {
-    document.querySelector('.error__message').style.display = 'block';
-    input.readOnly = false;
-  } else {
-    startButton.onclick = null;
+const slotsGame = (money, bettedMoney) => {
+  startButton.onclick = null;
     for (const roll of rolls) {
       for (const children of roll.children) {
         children.innerHTML = '';
@@ -85,10 +78,18 @@ function slots() {
     }
     const current = Array.from(document.querySelectorAll('.current'));
     setTimeout(() => checkWin(current, money, bettedMoney), delay);
-  }
 }
 
-startButton.onclick = slots;
+const startGame = () => {
+  input.readOnly = true;
+  const money = parseInt(localStorage.getItem('money'));
+  const bettedMoney = parseInt(document.querySelector('.input__money').value);
+  errorMessage.style.display = 'none';
+  added.innerHTML = '';
+  checkMoney(money, bettedMoney, slotsGame);
+}
+
+startButton.onclick = startGame;
 closeButton.onclick = () => window.close();
 window.addEventListener('storage', () => {
   document.querySelector('.money').innerHTML = localStorage.getItem('money');
