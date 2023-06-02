@@ -22,9 +22,9 @@ const STATIC_PATH = path.join(process.cwd(), './static');
 
 const toBool = [() => true, () => false];
 
-const prepareFile = async (url) => {
+const prepareFile = async url => {
   const paths = [STATIC_PATH, url];
-  if (url.endsWith('/')) paths.push('/index.html');
+  if (url.endsWith('/')) paths.push();
   const filePath = path.join(...paths);
   const pathTraversal = !filePath.startsWith(STATIC_PATH);
   const exists = await fs.promises.access(filePath).then(...toBool);
