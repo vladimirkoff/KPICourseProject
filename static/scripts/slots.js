@@ -60,7 +60,7 @@ const checkWin = (array, money, bettedMoney) => {
   }
   localStorage.setItem('money', money);
   document.querySelector('.money').innerHTML = localStorage.getItem('money');
-  startButton.onclick = slotsMain;
+  startButton.onclick = startGame;
   input.readOnly = false;
 };
 
