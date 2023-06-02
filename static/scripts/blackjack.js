@@ -3,7 +3,7 @@ import { cardsMap, cards } from './utils/cardsMapHelper.js';
 const BLACKJACK = 21;
 const SHOW_RESULT_DELAY = 800;
 const DEALER_SAFE_SCORE = 16;
-const IMG_PATH = '../static/assets/';
+const IMG_PATH = '../assets/';
 
 const moneyField = document.querySelector('body > div.header > p');
 const money = {
