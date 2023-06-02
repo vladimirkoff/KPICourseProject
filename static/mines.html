@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+       <meta charset="UTF-8">
+       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Mines</title>
+       <link rel="stylesheet" href="./styles/styleMines.css">
+</head>
+<body>
+       <div class="container">
+              <div class="main">
+                     <div class="header">Mines</div>
+                     <div class="game">
+                            <div class="game__board">
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                                   <div class="cell"></div>
+                            </div>
+                            <div class="info">
+                                   <div class="balance">Your balance: <div class="money"></div> <div class="added"></div> </div>
+                                   <input type="text" class="input__money">
+                                   <br>
+                                   <div class="error__message">Input correct value!</div>
+                                   <button class="start__button button">Start</button>
+                                   <div class="game__info">
+                                          <button class="continue__button button disabled">Continue</button>
+                                          <div class="steps">Count of steps: <div class="count__steps">0</div> </div>
+                                          <button class="give__money button disabled">Give <div class="earned__money">0</div> </button>
+                                   </div>
+                            </div>
+                     </div>
+                     <div class="play__more button">Play more!</div>
+              </div>
+       </div>
+
+       <script src="./scripts/mines.js" type="module"></script>
+       <script src="./scripts/utils/moneyCheck.js" type="module"></script>
+</body>
+</html>

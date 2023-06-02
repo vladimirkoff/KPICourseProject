@@ -1,0 +1,124 @@
+*{
+       margin: 0;
+       padding: 0;
+       font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body{
+       height: 100%;
+       font-size: 20px;
+}
+
+.container{
+       background-color: #07052e;
+       color: #fff;
+       height: 100%;
+       display: flex;
+       flex-direction: column;
+       user-select: none;
+}
+
+.main{
+       text-align: center;
+       margin: auto;
+}
+
+.header{
+       font-size: 50px;
+       margin-bottom: 20px;
+}
+.game{
+       display: flex;
+       margin-top: 50px;
+}
+.money, .count__steps{
+       padding-left: 10px;
+}
+
+.money{
+       padding-right: 10px;
+}
+
+.balance{
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       padding-bottom: 25px;
+}
+.steps{
+       display: flex;
+       align-items: center;
+       justify-content: center;
+}
+.button{
+       font-size: 25px;
+       padding: 20px 45px;
+       border-radius: 5px;
+       border: none;
+       background-color: #060341;
+       color: #fff;
+       cursor: pointer;
+       margin: 25px 0px;
+
+}
+.disabled {
+       background-color: #0d094f; 
+       background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0, 0, 0, 0.1) 4px, rgba(0, 0, 0, 0.1) 8px);
+       cursor: not-allowed;
+}
+.input__money{
+       font-size: 20px;
+       padding: 5px;
+       text-align: center;
+       border-radius: 5px;
+       border: none;
+}
+.error__message{
+       color: #fff;
+       background-color: #ff0000;
+       font-size: 15px;
+       padding: 5px;
+       margin-top: 10px;
+       display: none;
+       border-radius: 5px;
+       position: relative;
+}
+.error__message::before {
+       content: "";
+       position: absolute;
+       top: -9px;
+       left: 50%;
+       transform: translateX(-50%);
+       border-left: 10px solid transparent;
+       border-right: 10px solid transparent;
+       border-bottom: 10px solid #ff0000;
+}
+.game__board{
+       display: grid;
+       grid-template-columns: repeat(5, 1fr);
+       grid-column-gap: 30px;
+       grid-row-gap: 30px;
+       margin-right: 50px;
+}
+.game__board, .info{
+       background-color: #0d095b;
+       padding: 20px;
+       border-radius: 10px;
+}
+.cell{
+       background-color: #fff;
+       width: 50px;
+       height: 50px;
+       border-radius: 5px;
+       cursor: pointer;
+}
+.game__info, .play__more{
+       display: none;
+}
+
+.bomb{
+       background-color: #ab0000;
+}
+.empty__cell{ 
+       background-color: #069b17;
+}

@@ -1,0 +1,146 @@
+*{
+       margin: 0;
+       padding: 0;
+       font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body{
+       height: 100%;
+       font-size: 20px;
+}
+
+.container{
+       background-color: #07052e;
+       color: #fff;
+       height: 100%;
+       display: flex;
+       flex-direction: column;
+       user-select: none;
+}
+
+.main{
+       text-align: center;
+       margin: auto;
+}
+
+.header{
+       font-size: 50px;
+       margin-bottom: 20px;
+}
+.money{
+       padding: 0 10px;
+}
+
+.balance{
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       margin-bottom: 15px;
+}
+
+.input{
+       display: flex;
+       justify-content: space-evenly;
+}
+
+.input__money{
+       font-size: 20px;
+       padding: 5px;
+       text-align: center;
+       border-radius: 5px;
+       border: none;
+}
+
+.error__message{
+       color: #fff;
+       background-color: #ff0000;
+       font-size: 15px;
+       padding: 5px;
+       margin-top: 10px;
+       display: none;
+       border-radius: 5px;
+       position: relative;
+}
+.error__message::before {
+       content: "";
+       position: absolute;
+       top: -9px;
+       left: 50%;
+       transform: translateX(-50%);
+       border-left: 10px solid transparent;
+       border-right: 10px solid transparent;
+       border-bottom: 10px solid #ff0000;
+}
+.button{
+       width: 40px;
+       height: 40px;
+       border-radius: 50%;
+       border: none;
+       background-color: #07025f;
+       color: #fff;
+       cursor: pointer;
+       position: relative;
+}
+
+.start__button::before {
+       content: '';
+       position: absolute;
+       top: 50%;
+       left: 50%;
+       transform: translate(-50%, -50%);
+       width: 0;
+       height: 0;
+       border-left: 10px solid transparent;
+       border-right: 10px solid transparent;
+       border-bottom: 14px solid #fff; /* Цвет треугольника */
+}
+
+.back__button::before,
+.back__button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 2px;
+  background-color: #fff; /* Цвет крестика */
+}
+
+.back__button::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.back__button::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.disabled {
+       background-color: #3f980b; 
+       background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0, 0, 0, 0.1) 4px, rgba(0, 0, 0, 0.1) 8px); /* Штриховой фон */
+}
+
+.slots{
+       display: flex;
+       justify-content: space-evenly;
+       margin: 25px 0px;
+       background-color: #fff;
+       color: #07052e;
+       border-radius: 10px;
+       padding: 10px 0;
+       
+}
+
+.current{
+       border: solid 7px #07052e;
+       padding: 10px;
+       font-size: 50px;
+       width: 40px;
+       height: 54.4px;
+}
+
+.next, .previous{
+       font-size: 20px;
+       width: 72.487px;
+       height: 23.2px;
+}
