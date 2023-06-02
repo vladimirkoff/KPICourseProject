@@ -1,9 +1,7 @@
 let money = localStorage.getItem('money');
-if (!money || money == NaN) {
+if (!money || isNaN(money)) {
   money = 0;
 }
 
 localStorage.setItem('money', money);
-document.querySelector('#money > p').innerHTML = money;
-
-
+document.querySelector('body > div.header > p').innerHTML = money;
