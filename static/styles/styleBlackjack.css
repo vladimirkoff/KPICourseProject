@@ -8,8 +8,6 @@ html{
     /* 10px and default 1rem=16px */
 }
 
-
-
 .title{
     text-align: center;
     background: rgb(232,224,117);
@@ -64,7 +62,6 @@ html{
 }
 
 .row1 ,.row2{
-    /*background: url('../static/assets/table.jpg') no-repeat center center/cover;*/
     width: auto;
     color: black;
 }
