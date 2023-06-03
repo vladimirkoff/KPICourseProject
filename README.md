@@ -2,7 +2,7 @@
 
 Course work on the discipline Fundamentals of Programming
 
-Kyiv Polytechnic Institute FIOT 1st year of bachelor's degree group IM-21
+Kyiv Polytechnic Institute FICT 1st year of bachelor's degree group IM-21
 
 Authors:
 - Ivan Pasternak: [ipassternak](https://github.com/ipassternak)
