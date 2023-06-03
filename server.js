@@ -19,7 +19,6 @@ const MIME_TYPES = {
 };
 
 const STATIC_PATH = path.join(process.cwd(), './static');
-
 const toBool = [() => true, () => false];
 
 const prepareFile = async url => {
