@@ -10,7 +10,7 @@ html, body{
 }
 
 .container{
-       background-color: #07052e;
+       background-color: #777777;
        color: #fff;
        height: 100%;
        display: flex;
@@ -55,7 +55,7 @@ html, body{
        align-items: center;
        padding: 50px;
        font-size: 20px;
-       background-color: #0d095b;
+       background-color: #404040;
        color: #fff;
        border-radius: 5px;
        transition: .1s linear;
@@ -88,7 +88,7 @@ html, body{
        width: 0;
        height: 0;
        border-top: 7px solid transparent;
-       border-left: 15px solid #07052e;
+       border-left: 15px solid #404040;
        border-bottom: 7px solid transparent;
 }
 
@@ -96,7 +96,7 @@ html, body{
        border-left-color: #fff;
 }
 .game:hover {
-       background-color: #07052e;
+       background-color: #777;
 }
 
 .game:focus {

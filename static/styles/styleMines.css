@@ -10,7 +10,7 @@ html, body{
 }
 
 .container{
-       background-color: #07052e;
+       background-color: #777;
        color: #fff;
        height: 100%;
        display: flex;
@@ -55,14 +55,14 @@ html, body{
        padding: 20px 45px;
        border-radius: 5px;
        border: none;
-       background-color: #060341;
+       background-color: #4d4d4d;
        color: #fff;
        cursor: pointer;
        margin: 25px 0px;
 
 }
 .disabled {
-       background-color: #0d094f; 
+       background-color: #404040; 
        background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0, 0, 0, 0.1) 4px, rgba(0, 0, 0, 0.1) 8px);
        cursor: not-allowed;
 }
@@ -101,7 +101,7 @@ html, body{
        margin-right: 50px;
 }
 .game__board, .info{
-       background-color: #0d095b;
+       background-color: #404040;
        padding: 20px;
        border-radius: 10px;
 }

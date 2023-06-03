@@ -10,7 +10,7 @@ html, body{
 }
 
 .container{
-       background-color: #07052e;
+       background-color: #777;
        color: #fff;
        height: 100%;
        display: flex;
@@ -76,7 +76,7 @@ html, body{
        height: 40px;
        border-radius: 50%;
        border: none;
-       background-color: #07025f;
+       background-color: #404040;
        color: #fff;
        cursor: pointer;
        position: relative;
@@ -92,7 +92,7 @@ html, body{
        height: 0;
        border-left: 10px solid transparent;
        border-right: 10px solid transparent;
-       border-bottom: 14px solid #fff; /* Цвет треугольника */
+       border-bottom: 14px solid #fff;
 }
 
 .back__button::before,
@@ -104,7 +104,7 @@ html, body{
   transform: translate(-50%, -50%);
   width: 20px;
   height: 2px;
-  background-color: #fff; /* Цвет крестика */
+  background-color: #fff;
 }
 
 .back__button::before {
@@ -132,7 +132,7 @@ html, body{
 }
 
 .current{
-       border: solid 7px #07052e;
+       border: solid 7px #777;
        padding: 10px;
        font-size: 50px;
        width: 40px;
